@@ -101,7 +101,11 @@ namespace ft
                 this->_size = 0;
                 return ;
             }
-            
+
+            size_t max_size() const
+            {
+                return this->_tab.max_size();
+            }
         private:
             std::allocator<T>    _tab;
             T                    *_myTab;

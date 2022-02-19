@@ -34,5 +34,6 @@ int main()
     test.pop_back(); */
     test.push_back(265);
     test.size();
+    std::cout << "result of max size : " << test.max_size() << std::endl;
     return 0;
 }
