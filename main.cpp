@@ -25,12 +25,14 @@ int main()
     test.pop_back();
     test.push_back(6);
     test.size();
+    test.clear();
+    /* test.pop_back();
     test.pop_back();
     test.pop_back();
     test.pop_back();
     test.pop_back();
-    test.pop_back();
-    test.pop_back();
+    test.pop_back(); */
+    test.push_back(265);
     test.size();
     return 0;
 }

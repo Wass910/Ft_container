@@ -93,6 +93,15 @@ namespace ft
                 return ;
             }
 
+            void clear( void )
+            {
+                if (this->_size == 0)
+                    return ;
+                this->_myTab = this->_tab.allocate(0);
+                this->_size = 0;
+                return ;
+            }
+            
         private:
             std::allocator<T>    _tab;
             T                    *_myTab;
