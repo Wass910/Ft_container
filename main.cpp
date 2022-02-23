@@ -37,7 +37,7 @@ int main()
     std::cout << "result of max size : " << test.max_size() << std::endl;
     ft::vector_iterator<int>  it = test.begin();
     ft::vector_iterator<int>  itE = test.end();
-    --itE;
+    itE--;
     std::cout << "iterator de  0 : " << *it << std::endl;
     std::cout << "iterator de  end : " << *itE << std::endl;
     it++;

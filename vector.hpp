@@ -53,6 +53,13 @@ namespace ft
                 return *this;
             }
 
+            vector_iterator operator--(T) 
+            {
+                vector_iterator  temp = *this;
+                --*this;
+                return temp;
+            }
+
             vector_iterator& operator--(void) 
             {
                 this->p--;
@@ -145,7 +152,7 @@ namespace ft
             void push_back(const T & val)
             {
                 T *tmp = this->_myTab;
-                this->_myTab = this->_tab.allocate(this->_size + 1);
+                this->_myTab = this->_tab.allocate(this->_size + 1, 0);
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
                 this->_tab.construct(this->_myTab + _size, val);
@@ -162,8 +169,8 @@ namespace ft
                 if (this->_size == 0)
                     return ;
                 T *tmp = this->_myTab;
+                this->_myTab = this->_tab.allocate(this->_size, 0);
                 this->_size--;
-                this->_myTab = this->_tab.allocate(this->_size + 1, 0);
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
                 std::cout << "-------------------" << std::endl;
@@ -186,6 +193,7 @@ namespace ft
             {
                 return this->_tab.max_size();
             }
+
         private:
             std::allocator<T>    _tab;
             T                    *_myTab;
