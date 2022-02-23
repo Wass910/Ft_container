@@ -10,13 +10,48 @@ namespace ft
     template <typename T>
     class vector_iterator : public std::iterator<std::input_iterator_tag, int>{
         public:
+            vector_iterator(void) 
+            {
+                return ;
+            }
             vector_iterator(T * x) :p(x) 
             {
                 return ;
             }
+
+            vector_iterator & operator=( vector_iterator const & src) 
+            {
+                this->p = src.p;
+                return *this ;
+            }
+
+            vector_iterator(vector_iterator const & test) :p(test.p) 
+            {
+                return ;
+            }
+
+            T * getPointeur( void )
+            {
+                return p;
+            }
+
             T& operator*() 
             {
                 return *p;
+            }
+
+            vector_iterator operator++(T test) 
+            {
+                vector_iterator  temp = *this;
+                test++;
+                ++*this;
+                return temp;
+            }
+
+            vector_iterator& operator++(void) 
+            {
+                this->p++;
+                return *this;
             }
 
         private :
@@ -50,15 +85,18 @@ namespace ft
                 }
             };
 
-            ft::vector_iterator<T>   * begin( void )
+            ft::vector_iterator<T>   begin( void )
             {
-                ft::vector_iterator<T>  it(&this->_myTab[0]);
+                ft::vector_iterator<T>   it(this->_myTab);
                 
                 if (this->_size == 0)
                     return NULL;
-                //std::cout << "test adress = " << &this->_myTab[0] << std::endl;
+                std::cout << "test adress = " << &this->_myTab[0] << std::endl;
                 //it = it->pointeur(&this->_myTab[0]);
-                //std::cout << "test adress = " << it << std::endl;
+                std::cout << "test adress = " <<  it.getPointeur() << std::endl;
+                it = it.getPointeur();
+                it = static_cast< ft::vector_iterator<T> >(it.getPointeur());
+                std::cout << "test adress = " <<  &it << std::endl;
                 return (it);
             }
 
