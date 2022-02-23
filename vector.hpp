@@ -3,7 +3,6 @@
 #include <exception>
 #include <iterator>
 
-
 namespace ft
 {
 
@@ -182,11 +181,14 @@ namespace ft
 
             void clear( void )
             {
-                if (this->_size == 0)
-                    return ;
-                this->_myTab = this->_tab.allocate(0);
+                size_t len = this->_size;
+
+                for (size_t i = 0; i < len; i++) {
+                    this->_tab.destroy(this->_myTab + this->_size);
+                    this->_size--;
+                }
+                std::cout << this->_myTab[3] << std::endl;
                 this->_size = 0;
-                return ;
             }
 
             size_t max_size() const
