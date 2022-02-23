@@ -77,7 +77,7 @@ namespace ft
     class vector{
         public:
 
-            vector( void ) : _size(0)
+            vector( void ) : _size(0), _size_hide(0)
             {
                 std::cout << "Vector constructor is call." << std::endl;
                 return ;
@@ -119,10 +119,10 @@ namespace ft
                 return false;
             }
 
-            void size( void ) const
+            size_t size( void ) const
             {
-                std::cout << "size is = " << this->_size << std::endl;
-                return ;
+                std::cout << "size is = " << this->_size_hide << std::endl;
+                return this->_size_hide;
             }
 
             T   & front( void ) const
@@ -154,22 +154,24 @@ namespace ft
                 this->_myTab = this->_tab.allocate(this->_size + 1, 0);
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
-                this->_tab.construct(this->_myTab + _size, val);
+                this->_tab.construct(this->_myTab + _size_hide, val);
                 std::cout << "-------------------" << std::endl;
                 for (int i = 0; i <= this->_size ; i++)
                     std::cout << this->_myTab[i] << std::endl;
                 std::cout << "-------------------" << std::endl;
                 _size++;
+                this->_size_hide++;
                 return ;
             }
 
             void pop_back( void )
             {
-                if (this->_size == 0)
+                if (this->_size_hide == 0)
                     return ;
                 T *tmp = this->_myTab;
                 this->_myTab = this->_tab.allocate(this->_size, 0);
                 this->_size--;
+                this->_size_hide--;
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
                 std::cout << "-------------------" << std::endl;
@@ -184,11 +186,10 @@ namespace ft
                 size_t len = this->_size;
 
                 for (size_t i = 0; i < len; i++) {
-                    this->_tab.destroy(this->_myTab + this->_size);
-                    this->_size--;
+                    this->_tab.destroy(this->_myTab + i);
+                    i++;
                 }
-                std::cout << this->_myTab[3] << std::endl;
-                this->_size = 0;
+                this->_size_hide = 0;
             }
 
             size_t max_size() const
@@ -200,5 +201,6 @@ namespace ft
             std::allocator<T>    _tab;
             T                    *_myTab;
             size_t                 _size;
+            size_t                 _size_hide;
     };
 }
