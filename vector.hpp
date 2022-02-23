@@ -1,12 +1,36 @@
 #include <iostream>
 #include <memory>
 #include <exception>
+#include <iterator>
+
 
 namespace ft
 {
+
+    template <typename T>
+    class vector_iterator : public std::iterator<std::input_iterator_tag, int>{
+        public:
+            vector_iterator(T * x) :p(x) 
+            {
+                return ;
+            }
+            T& operator*() 
+            {
+                return *p;
+            }
+
+        private :
+            T * p;
+    };
+}
+
+namespace ft
+{
+
     template <typename T, class Alloc = std::allocator<T> >
     class vector{
         public:
+
             vector( void ) : _size(0)
             {
                 std::cout << "Vector constructor is call." << std::endl;
@@ -25,6 +49,18 @@ namespace ft
                     return ("Vector is empty.");
                 }
             };
+
+            ft::vector_iterator<T>   * begin( void )
+            {
+                ft::vector_iterator<T>  it(&this->_myTab[0]);
+                
+                if (this->_size == 0)
+                    return NULL;
+                //std::cout << "test adress = " << &this->_myTab[0] << std::endl;
+                //it = it->pointeur(&this->_myTab[0]);
+                //std::cout << "test adress = " << it << std::endl;
+                return (it);
+            }
 
             bool empty( void ) const
             {

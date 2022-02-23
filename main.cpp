@@ -25,7 +25,7 @@ int main()
     test.pop_back();
     test.push_back(6);
     test.size();
-    test.clear();
+    //test.clear();
     /* test.pop_back();
     test.pop_back();
     test.pop_back();
@@ -35,5 +35,7 @@ int main()
     test.push_back(265);
     test.size();
     std::cout << "result of max size : " << test.max_size() << std::endl;
+    ft::vector_iterator<int> it = test.begin();
+    std::cout << "result of max size : " << it << std::endl;
     return 0;
 }
