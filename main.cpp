@@ -36,9 +36,14 @@ int main()
     test.size();
     std::cout << "result of max size : " << test.max_size() << std::endl;
     ft::vector_iterator<int>  it = test.begin();
+    ft::vector_iterator<int>  itE = test.end();
+    --itE;
     std::cout << "iterator de  0 : " << *it << std::endl;
+    std::cout << "iterator de  end : " << *itE << std::endl;
     it++;
     std::cout << "iterator de  1 : " << *it << std::endl;
     std::cout << "iterator de  2 : " << *++it << std::endl;
+    std::vector<int>::iterator  it2 = ok.begin();
+    std::cout << "iterator de  2 : " << *it << std::endl;
     return 0;
 }

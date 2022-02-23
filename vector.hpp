@@ -40,10 +40,9 @@ namespace ft
                 return *p;
             }
 
-            vector_iterator operator++(T test) 
+            vector_iterator operator++(T) 
             {
                 vector_iterator  temp = *this;
-                test++;
                 ++*this;
                 return temp;
             }
@@ -51,6 +50,12 @@ namespace ft
             vector_iterator& operator++(void) 
             {
                 this->p++;
+                return *this;
+            }
+
+            vector_iterator& operator--(void) 
+            {
+                this->p--;
                 return *this;
             }
 
@@ -87,16 +92,17 @@ namespace ft
 
             ft::vector_iterator<T>   begin( void )
             {
-                ft::vector_iterator<T>   it(this->_myTab);
-                
                 if (this->_size == 0)
                     return NULL;
-                std::cout << "test adress = " << &this->_myTab[0] << std::endl;
-                //it = it->pointeur(&this->_myTab[0]);
-                std::cout << "test adress = " <<  it.getPointeur() << std::endl;
-                it = it.getPointeur();
-                it = static_cast< ft::vector_iterator<T> >(it.getPointeur());
-                std::cout << "test adress = " <<  &it << std::endl;
+                ft::vector_iterator<T>   it(this->_myTab);
+                return (it);
+            }
+
+            ft::vector_iterator<T>   end( void )
+            {
+                if (this->_size == 0)
+                    return NULL;
+                ft::vector_iterator<T>   it(this->_myTab + this->_size);
                 return (it);
             }
 
@@ -157,7 +163,7 @@ namespace ft
                     return ;
                 T *tmp = this->_myTab;
                 this->_size--;
-                this->_myTab = this->_tab.allocate(this->_size);
+                this->_myTab = this->_tab.allocate(this->_size + 1, 0);
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
                 std::cout << "-------------------" << std::endl;
