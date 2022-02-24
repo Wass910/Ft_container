@@ -1,74 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <exception>
-#include <iterator>
-
-namespace ft
-{
-
-    template <typename T>
-    class vector_iterator : public std::iterator<std::input_iterator_tag, int>{
-        public:
-            vector_iterator(void) 
-            {
-                return ;
-            }
-            vector_iterator(T * x) :p(x) 
-            {
-                return ;
-            }
-
-            vector_iterator & operator=( vector_iterator const & src) 
-            {
-                this->p = src.p;
-                return *this ;
-            }
-
-            vector_iterator(vector_iterator const & test) :p(test.p) 
-            {
-                return ;
-            }
-
-            T * getPointeur( void )
-            {
-                return p;
-            }
-
-            T& operator*() 
-            {
-                return *p;
-            }
-
-            vector_iterator operator++(T) 
-            {
-                vector_iterator  temp = *this;
-                ++*this;
-                return temp;
-            }
-
-            vector_iterator& operator++(void) 
-            {
-                this->p++;
-                return *this;
-            }
-
-            vector_iterator operator--(T) 
-            {
-                vector_iterator  temp = *this;
-                --*this;
-                return temp;
-            }
-
-            vector_iterator& operator--(void) 
-            {
-                this->p--;
-                return *this;
-            }
-
-        private :
-            T * p;
-    };
-}
+#include "vectorIterator.hpp"
 
 namespace ft
 {
@@ -96,9 +29,26 @@ namespace ft
                 }
             };
 
-            ft::vector_iterator<T>   begin( void )
+            
+            ft::vector_iterator<T>   begin( void ) const
             {
-                if (this->_size == 0)
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_iterator<T>   it(this->_myTab);
+                return (it);
+            }
+
+            ft::vector_iterator<T>   end( void ) const
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_iterator<T>   it(this->_myTab + this->_size_hide);
+                return (it);
+            }
+
+            ft::vector_iterator<T>   begin( void ) 
+            {
+                if (this->_size_hide == 0)
                     return NULL;
                 ft::vector_iterator<T>   it(this->_myTab);
                 return (it);
@@ -106,9 +56,105 @@ namespace ft
 
             ft::vector_iterator<T>   end( void )
             {
-                if (this->_size == 0)
+                if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_iterator<T>   it(this->_myTab + this->_size);
+                ft::vector_iterator<T>   it(this->_myTab + this->_size_hide);
+                return (it);
+            }
+
+            ft::vector_const_iterator<T>   cbegin( void ) const
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_iterator<T>   it(this->_myTab);
+                return (it);
+            }
+
+            ft::vector_const_iterator<T>   cend( void ) const
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_iterator<T>   it(this->_myTab + this->_size_hide);
+                return (it);
+            }
+
+            ft::vector_const_iterator<T>   cbegin( void ) 
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_iterator<T>   it(this->_myTab);
+                return (it);
+            }
+
+            ft::vector_const_iterator<T>   cend( void )
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_iterator<T>   it(this->_myTab + this->_size_hide);
+                return (it);
+            }
+            
+            ft::vector_const_reverse_iterator<T>   crbegin( void  )  
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                return (it);
+            }
+
+            ft::vector_const_reverse_iterator<T>   crend( void )  
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_reverse_iterator<T>   it(this->_myTab - 1);
+                return (it);
+            }
+
+            ft::vector_const_reverse_iterator<T>   crbegin( void  )  const
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                return (it);
+            }
+
+            ft::vector_const_reverse_iterator<T>   crend( void )  const
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_const_reverse_iterator<T>   it(this->_myTab - 1);
+                return (it);
+            }
+
+            ft::vector_reverse_iterator<T>   rbegin( void  )  const
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                return (it);
+            }
+
+            ft::vector_reverse_iterator<T>   rend( void )  const
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_reverse_iterator<T>   it(this->_myTab - 1);
+                return (it);
+            }
+
+            ft::vector_reverse_iterator<T>   rbegin( void  )  
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                return (it);
+            }
+
+            ft::vector_reverse_iterator<T>   rend( void )  
+            {
+                if (this->_size_hide == 0)
+                    return NULL;
+                ft::vector_reverse_iterator<T>   it(this->_myTab - 1);
                 return (it);
             }
 
@@ -155,11 +201,8 @@ namespace ft
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
                 this->_tab.construct(this->_myTab + _size_hide, val);
-                std::cout << "-------------------" << std::endl;
-                for (int i = 0; i <= this->_size ; i++)
-                    std::cout << this->_myTab[i] << std::endl;
-                std::cout << "-------------------" << std::endl;
-                _size++;
+                if (this->_size <= this->_size_hide)
+                    _size++;
                 this->_size_hide++;
                 return ;
             }
@@ -174,10 +217,6 @@ namespace ft
                 this->_size_hide--;
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
-                std::cout << "-------------------" << std::endl;
-                for (int i = 0; i < this->_size ; i++)
-                    std::cout << this->_myTab[i] << std::endl;
-                std::cout << "-------------------" << std::endl; 
                 return ;
             }
 
