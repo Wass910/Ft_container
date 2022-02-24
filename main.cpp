@@ -18,15 +18,16 @@ int main()
     test.push_back(5679);
     test.push_back(6);
     test.push_back(265);
-    std::vector<int>::const_iterator    it = test.cbegin();
-    std::vector<int>::const_iterator    ite = test.cend();
-    std::vector<int>::const_iterator    its = test.cend();
+    std::vector<int> cop(test);
+    std::vector<int>::iterator    it = cop.begin();
+    std::vector<int>::iterator    ite = cop.end();
+    std::vector<int>::iterator    its = cop.end();
     its--;
     while ( it != ite)
     {
-        std::cout << (*it < 100) << std::endl;
+        std::cout << (*it ) << std::endl;
         it++;
     }
-     
+    std::cout << cop[50] << std::endl;
     return 0;
 }

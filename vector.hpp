@@ -15,6 +15,18 @@ namespace ft
                 std::cout << "Vector constructor is call." << std::endl;
                 return ;
             }
+
+            vector( vector const & src ) : _size(src._size), _size_hide(src._size_hide), _tab(src._tab), _myTab(src._myTab)
+            {
+                std::cout << "Vector constructor is call." << std::endl;
+                return ;
+            }
+
+            T & operator[]( unsigned int i ) const
+            {
+                return this->_myTab[i];
+            }
+
             ~vector( void )
             {
                 std::cout << "Vector destructor is call." << std::endl;
@@ -167,7 +179,6 @@ namespace ft
 
             size_t size( void ) const
             {
-                std::cout << "size is = " << this->_size_hide << std::endl;
                 return this->_size_hide;
             }
 
