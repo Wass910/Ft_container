@@ -72,6 +72,62 @@ namespace ft
                 return *this;
             }
 
+            bool  operator>=( vector_iterator const & src ) const
+            {
+                if (this->p >= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator<=( vector_iterator const & src ) const
+            {
+                if (this->p <= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator>( vector_iterator const & src ) const
+            {
+                if (this->p > src.p)
+                    return true;
+                return false;
+            }
+
+            bool    operator<( vector_iterator const & src ) const
+            {
+                if (this->p < src.p)
+                    return true;
+                return false;
+            }
+
+            vector_iterator  operator+( vector_iterator const & src )
+            {
+                vector_iterator temp;
+                temp.p = this->p + src.p; 
+                return temp;
+            }
+
+            vector_iterator  operator-( vector_iterator const & src )
+            {
+                vector_iterator temp;
+                temp.p = this->p - src.p; 
+                return temp;
+            }
+
+            vector_iterator  operator/( vector_iterator const & src )
+            {
+                vector_iterator temp;
+                temp.p = this->p / src.p;
+                return temp;
+            }
+
+            vector_iterator  operator*( vector_iterator const & src )
+            {
+                vector_iterator temp;
+                temp.p= this->p * src.p; 
+                return temp ;
+            }
+
         private :
             T * p;
     };
@@ -147,6 +203,62 @@ namespace ft
             {
                 this->p--;
                 return *this;
+            }
+
+            bool  operator>=( vector_const_iterator const & src ) const
+            {
+                if (this->p >= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator<=( vector_const_iterator const & src ) const
+            {
+                if (this->p <= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator>( vector_const_iterator const & src ) const
+            {
+                if (this->p > src.p)
+                    return true;
+                return false;
+            }
+
+            bool    operator<( vector_const_iterator const & src ) const
+            {
+                if (this->p < src.p)
+                    return true;
+                return false;
+            }
+
+            vector_const_iterator const  operator+( vector_const_iterator const & src )
+            {
+                vector_const_iterator temp;
+                temp.p = this->p + src.p; 
+                return temp;
+            }
+
+            vector_const_iterator  const operator-( vector_const_iterator const & src )
+            {
+                vector_const_iterator temp;
+                temp.p = this->p - src.p; 
+                return temp;
+            }
+
+            vector_const_iterator const operator/( vector_const_iterator const & src )
+            {
+                vector_const_iterator temp;
+                temp.p = this->p / src.p;
+                return temp;
+            }
+
+            vector_const_iterator const operator*( vector_const_iterator const & src )
+            {
+                vector_const_iterator temp;
+                temp.p= this->p * src.p; 
+                return temp ;
             }
 
         private :
@@ -225,6 +337,62 @@ namespace ft
                 return *this;
             }
 
+            bool  operator>=( vector_const_reverse_iterator const & src ) const
+            {
+                if (this->p >= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator<=( vector_const_reverse_iterator const & src ) const
+            {
+                if (this->p <= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator>( vector_const_reverse_iterator const & src ) const
+            {
+                if (this->p > src.p)
+                    return true;
+                return false;
+            }
+
+            bool    operator<( vector_const_reverse_iterator const & src ) const
+            {
+                if (this->p < src.p)
+                    return true;
+                return false;
+            }
+
+            vector_const_reverse_iterator const operator+( vector_const_reverse_iterator const & src )
+            {
+                vector_const_reverse_iterator temp;
+                temp.p = this->p + src.p; 
+                return temp;
+            }
+
+            vector_const_reverse_iterator const operator-( vector_const_reverse_iterator const & src )
+            {
+                vector_const_reverse_iterator temp;
+                temp.p = this->p - src.p; 
+                return temp;
+            }
+
+            vector_const_reverse_iterator const operator/( vector_const_reverse_iterator const & src )
+            {
+                vector_const_reverse_iterator temp;
+                temp.p = this->p / src.p;
+                return temp;
+            }
+
+            vector_const_reverse_iterator const operator*( vector_const_reverse_iterator const & src )
+            {
+                vector_const_reverse_iterator temp;
+                temp.p= this->p * src.p; 
+                return temp ;
+            }
+
         private :
             T * p;
     };
@@ -301,6 +469,61 @@ namespace ft
                 return *this;
             }
 
+            bool  operator>=( vector_reverse_iterator const & src ) const
+            {
+                if (this->p >= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator<=( vector_reverse_iterator const & src ) const
+            {
+                if (this->p <= src.p)
+                    return true;
+                return false;
+            }
+
+            bool  operator>( vector_reverse_iterator const & src ) const
+            {
+                if (this->p > src.p)
+                    return true;
+                return false;
+            }
+
+            bool    operator<( vector_reverse_iterator const & src ) const
+            {
+                if (this->p < src.p)
+                    return true;
+                return false;
+            }
+
+            vector_reverse_iterator  operator+( vector_reverse_iterator const & src )
+            {
+                vector_reverse_iterator temp;
+                temp.p = this->p + src.p; 
+                return temp;
+            }
+
+            vector_reverse_iterator  operator-( vector_reverse_iterator const & src )
+            {
+                vector_reverse_iterator temp;
+                temp.p = this->p - src.p; 
+                return temp;
+            }
+
+            vector_reverse_iterator  operator/( vector_reverse_iterator const & src )
+            {
+                vector_reverse_iterator temp;
+                temp.p = this->p / src.p;
+                return temp;
+            }
+
+            vector_reverse_iterator  operator*( vector_reverse_iterator const & src )
+            {
+                vector_reverse_iterator temp;
+                temp.p= this->p * src.p; 
+                return temp ;
+            }
         private :
             T * p;
     };
