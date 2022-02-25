@@ -33,11 +33,11 @@ namespace ft
                 return ;
             }
 
-            class emptyTab : public std::exception {
+            class outOfRange : public std::exception {
             public:
                 virtual const char* what() const throw()
                 {
-                    return ("Vector is empty.");
+                    return ("Out of range.");
                 }
             };
 
@@ -172,7 +172,7 @@ namespace ft
 
             bool empty( void ) const
             {
-                if (this->_size == 0)
+                if (this->_size_hide == 0)
                     return true;
                 return false;
             }
@@ -196,6 +196,8 @@ namespace ft
 
             T   & at( size_t value ) const
             {
+                if (value > this->_size_hide)
+                    throw outOfRange();
                 return this->_myTab[value];
             }
 
@@ -246,6 +248,54 @@ namespace ft
             {
                 return this->_tab.max_size();
             }
+
+            friend bool operator==(const vector & lhs, const vector & rhs)
+            {
+                if (lhs.size() == rhs.size())
+                {
+                    for(int i = 0; i < lhs.size(); i++)
+                    {
+                        if (lhs.at(i) != rhs.at(i))
+                            return false;
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+            friend bool operator!=(const vector & lhs, const vector & rhs)
+            {
+                if (lhs.size() == rhs.size())
+                {
+                    for(int i = 0; i < lhs.size(); i++)
+                    {
+                        if (lhs.at(i) != rhs.at(i))
+                            return true;
+                    }
+                    return false;
+                }
+                return true;
+            }
+
+            friend bool operator<(const vector & lhs, const vector & rhs)
+            {
+                return (lhs < rhs);
+            }
+
+            friend bool operator<=(const vector & lhs, const vector & rhs)
+            {
+                return (lhs <= rhs);
+            }
+
+            friend bool operator>(const vector & lhs, const vector & rhs)
+            {
+                return (lhs > rhs);
+            }
+
+            friend bool operator>=(const vector & lhs, const vector & rhs)
+            {
+                return (lhs >= rhs);
+            } 
 
         private:
             std::allocator<T>    _tab;
