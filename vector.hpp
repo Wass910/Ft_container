@@ -249,6 +249,144 @@ namespace ft
                 return this->_tab.max_size();
             }
 
+            ft::vector_iterator<T>   erase( ft::vector_iterator<T> it) 
+            {
+                ft::vector_iterator<T> it1 = this->begin();
+                ft::vector_iterator<T> ite1 = this->end();
+                int to_erase = 0;
+
+                while (it1 != it )
+                {
+                    to_erase++;
+                    it1++;
+                }
+                T *tmp = this->_myTab;
+                this->_tab.destroy(this->_myTab + to_erase);
+                this->_myTab = this->_tab.allocate(this->_size, 0);
+                this->_size_hide--;
+                int temp = 0;
+                for (int i = 0; i < this->_size ; i++)
+                {    
+                    if ( i != to_erase)
+                    {    
+                        this->_tab.construct(this->_myTab + temp, tmp[i]);
+                        temp++;
+                    }
+                }
+                this->_size--;
+                return (++it1);
+            } 
+
+            ft::vector_const_iterator<T>   erase( ft::vector_const_iterator<T> it) 
+            {
+                ft::vector_const_iterator<T> it1 = this->cbegin();
+                ft::vector_const_iterator<T> ite1 = this->cend();
+                int to_erase = 0;
+
+                while (it1 != it )
+                {
+                    to_erase++;
+                    it1++;
+                }
+                T *tmp = this->_myTab;
+                this->_tab.destroy(this->_myTab + to_erase);
+                this->_myTab = this->_tab.allocate(this->_size, 0);
+                this->_size_hide--;
+                int temp = 0;
+                for (int i = 0; i < this->_size + 1 ; i++)
+                {    
+                    if ( i != to_erase)
+                    {    
+                        this->_tab.construct(this->_myTab + temp, tmp[i]);
+                        temp++;
+                    }
+                }
+                this->_size--;
+                return (++it1); 
+            }
+            
+            ft::vector_iterator<T>   erase( ft::vector_iterator<T> it, ft::vector_iterator<T> ite) 
+            {
+                ft::vector_iterator<T> it1 = this->begin();
+                ft::vector_iterator<T> ite1 = this->end();
+                int to_erase_begin = 0;
+                int to_erase_end = 0;
+
+                while (it1 != ite )
+                {
+                    to_erase_end++;
+                    it1++;
+                }
+                it1 = this->begin();
+                while (it1 != it )
+                {
+                    to_erase_begin++;
+                    it1++;
+                }
+                T *tmp = this->_myTab;
+                for (int i = to_erase_begin; i < to_erase_end; i++ )
+                    this->_tab.destroy(this->_myTab + i);
+                this->_myTab = this->_tab.allocate(this->_size - (to_erase_end - to_erase_begin), 0);
+                this->_size_hide-= (to_erase_end - to_erase_begin);
+                int temp = 0;
+                for (int i = 0; i < this->_size  ; i++)
+                {    
+                    if ( i < to_erase_begin || i >= to_erase_end )
+                    {    
+                        this->_tab.construct(this->_myTab + temp, tmp[i]);
+                        temp++;
+                    }
+                }
+                this->_size -= (to_erase_end - to_erase_begin );
+                while(to_erase_begin != to_erase_end)
+                {
+                    it++;
+                    to_erase_begin++;
+                }
+                return (it);
+            } 
+
+            ft::vector_const_iterator<T>   erase( ft::vector_const_iterator<T> it, ft::vector_const_iterator<T> ite) 
+            {
+                ft::vector_const_iterator<T> it1 = this->begin();
+                ft::vector_const_iterator<T> ite1 = this->end();
+                int to_erase_begin = 0;
+                int to_erase_end = 0;
+
+                while (it1 != ite )
+                {
+                    to_erase_end++;
+                    it1++;
+                }
+                it1 = this->begin();
+                while (it1 != it )
+                {
+                    to_erase_begin++;
+                    it1++;
+                }
+                T *tmp = this->_myTab;
+                for (int i = to_erase_begin; i < to_erase_end; i++ )
+                    this->_tab.destroy(this->_myTab + i);
+                this->_myTab = this->_tab.allocate(this->_size - (to_erase_end - to_erase_begin), 0);
+                this->_size_hide-= (to_erase_end - to_erase_begin);
+                int temp = 0;
+                for (int i = 0; i < this->_size  ; i++)
+                {    
+                    if ( i < to_erase_begin || i >= to_erase_end )
+                    {    
+                        this->_tab.construct(this->_myTab + temp, tmp[i]);
+                        temp++;
+                    }
+                }
+                this->_size -= (to_erase_end - to_erase_begin );
+                while(to_erase_begin != to_erase_end)
+                {
+                    it++;
+                    to_erase_begin++;
+                }
+                return (it);
+            }
+
             friend bool operator==(const vector & lhs, const vector & rhs)
             {
                 if (lhs.size() == rhs.size())
@@ -279,22 +417,66 @@ namespace ft
 
             friend bool operator<(const vector & lhs, const vector & rhs)
             {
-                return (lhs < rhs);
+				size_t len;
+				if(lhs.size() > rhs.size())
+					len = lhs.size();
+				else
+					len = rhs.size();
+                for(int i = 0; i < len; i++)
+                    {
+						if(lhs.at(i) > rhs.at(i))
+							return false;
+                    }
+				if(lhs == rhs)
+					return false;
+                return true;
             }
 
             friend bool operator<=(const vector & lhs, const vector & rhs)
             {
-                return (lhs <= rhs);
+                size_t len;
+				if(lhs.size() > rhs.size())
+					len = lhs.size();
+				else
+					len = rhs.size();
+                for(int i = 0; i < len; i++)
+                    {
+						if(lhs.at(i) > rhs.at(i))
+							return false;
+                    }
+                return true;
             }
 
             friend bool operator>(const vector & lhs, const vector & rhs)
             {
-                return (lhs > rhs);
+                size_t len;
+				if(lhs.size() > rhs.size())
+					len = lhs.size();
+				else
+					len = rhs.size();
+                for(int i = 0; i < len; i++)
+                    {
+						if(lhs.at(i) > rhs.at(i))
+							return true;
+                    }
+                return false;
             }
 
             friend bool operator>=(const vector & lhs, const vector & rhs)
             {
-                return (lhs >= rhs);
+                size_t len;
+				if(lhs.size() > rhs.size())
+					len = lhs.size();
+				else
+					len = rhs.size();
+                for(int i = 0; i < len; i++)
+                    {
+						if(lhs.at(i) > rhs.at(i))
+							return true;
+                    }
+				if(lhs == rhs)
+					return true;
+                return false;
             } 
 
         private:
