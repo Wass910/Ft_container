@@ -26,17 +26,13 @@ int main()
     it++;
     it++;
     it++;
-    ft::vector_iterator<int> oui1 = test.erase(it, --ite);
-    std::cout << "size = "<< test.size() << std::endl;
-    std::cout << "oui of mine = " << *oui1 << std::endl;
     std::cout << "-----------------------------" << std::endl;
-    ft::vector_iterator<int> it2 = test.begin();
-    ft::vector_iterator<int> ite2 = test.end();
-
-    while (it2 != ite2)
+    it = test.insert(it ,  10);
+    ite = test.end();
+    while (it != ite)
     {
-        std::cout << *it2 << std::endl;
-        it2++;
+        std::cout << *it << std::endl;
+        it++;
     }
     std::cout << "------------REAL VECTOR-----------------" << std::endl;
     std::vector<int> test1;
@@ -60,17 +56,13 @@ int main()
     }
     it3 = test1.begin();
     it3 += 3;
-    std::vector<int>::iterator oui = test1.erase(it3, --ite3);
-    std::cout << "size = " << test1.size() << std::endl;
-    std::cout << "oui of vector = " << *oui << std::endl;
     std::cout << "-----------------------------" << std::endl;
-    std::vector<int>::iterator it1 = test1.begin();
-    std::vector<int>::iterator ite1 = test1.end();
-
-    while (it1 != ite1)
+    it3 = test1.insert(it3,10);
+    ite3 = test1.end();
+    while (it3 != ite3)
     {
-        std::cout << *it1 << std::endl;
-        it1++;
+        std::cout << *it3 << std::endl;
+        it3++;
     }
     return 0;
 }

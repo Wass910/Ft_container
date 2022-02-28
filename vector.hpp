@@ -317,10 +317,76 @@ namespace ft
                     it++;
                     to_erase_begin++;
                 }
+                
                 return (it);
             } 
-
             
+            void insert(ft::vector_iterator<T> it, unsigned int n, const T & val)
+            {
+                ft::vector_iterator<T> it1 = this->begin();
+                ft::vector_iterator<T> ite1 = this->end();
+                int place = 0;
+                int temp = 0;
+
+                while (it1 != it )
+                {
+                    place++;
+                    it1++;
+                }
+                T *tmp = this->_myTab;
+                this->_size += n;
+                this->_size_hide += n;
+                this->_myTab = this->_tab.allocate(this->_size , 0);
+                for (int i = 0; i < this->_size  ; i++)
+                {  
+                    
+                    if (i == place)
+                    {
+                        while (n > 0)
+                        {
+                            this->_tab.construct(this->_myTab + i, val); 
+                            i++; 
+                            n--;
+                        }
+                        i--;
+                    }
+                    else
+                        this->_tab.construct(this->_myTab + i, tmp[temp++]);  
+                }
+            }
+
+            ft::vector_iterator<T> insert(ft::vector_iterator<T> it, const T & val)
+            {
+                ft::vector_iterator<T> it1 = this->begin();
+                ft::vector_iterator<T> ite1 = this->end();
+                int place = 0;
+                int temp = 0;
+
+                while (it1 != it )
+                {
+                    place++;
+                    it1++;
+                }
+                T *tmp = this->_myTab;
+                this->_size++;
+                this->_size_hide++;
+                this->_myTab = this->_tab.allocate(this->_size , 0);
+                for (int i = 0; i < this->_size  ; i++)
+                {  
+                    
+                    if (i == place)
+                        this->_tab.construct(this->_myTab + i, val); 
+                    else
+                        this->_tab.construct(this->_myTab + i, tmp[temp++]);  
+                }
+                ft::vector_iterator<T> it2 = this->begin();
+                while (place > 0)
+                {
+                    place--;
+                    it2++;
+                }
+                return it2;
+            }
 
             friend bool operator==(const vector & lhs, const vector & rhs)
             {
