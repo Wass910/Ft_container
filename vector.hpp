@@ -406,32 +406,21 @@ namespace ft
                 int place = 0;
 				int temp = 0;
 				int count = 0;
-				int fckwassim;
-
-                while (first != last )
+                
+				while (first != last )
                 {
                     count++;
                     if (count > this->_size_hide)
                         return ;
                     first++;
                 }
-				fckwassim = count;
-				while(fckwassim)
-				{
-					first--;
-					fckwassim--;
-				}
+				first -=count;
 				while (it1 != position)
 				{
 					it1++;
 					place++;
 				}
-				fckwassim = place;
-				while(fckwassim)
-				{
-					it1--;
-					fckwassim--;
-				}
+				it1 -= place;
                 T *tmp = this->_myTab;
                 this->_size +=count;
                 this->_size_hide +=count;
@@ -464,6 +453,14 @@ namespace ft
                     this->_tab.construct(this->_myTab + i, val); 
                 return ;
             }
+
+            template <class InputIterator>
+            void assign (InputIterator first, InputIterator last)
+            {
+				this->clear();
+				for(first; first != last; first++)
+					this->push_back(*first);
+			}
 
             void swap(ft::vector<T> & src)
             {
