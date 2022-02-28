@@ -18,7 +18,7 @@ namespace ft
 
             vector( vector const & src ) : _size(src._size), _size_hide(src._size_hide), _tab(src._tab), _myTab(src._myTab)
             {
-                std::cout << "Vector constructor is call." << std::endl;
+                std::cout << "Vector constructor assignation is call." << std::endl;
                 return ;
             }
 
@@ -27,7 +27,7 @@ namespace ft
                 return this->_myTab[i];
             }
 
-            ft::vector<T> operator=(ft::vector<T> const & src)
+            ft::vector<T> & operator=(ft::vector<T> const & src)
             {
                 this->_size = src._size;
                 this->_size_hide = src._size_hide;
@@ -397,16 +397,14 @@ namespace ft
             }
 
             template <class InputIterator>
-			void insert (ft::vector_iterator<T> position, InputIterator first, InputIterator last){
-				
-				std::cout << "first: " << *first << " last: " << *last << std::endl;
-
+			void insert (ft::vector_iterator<T> position, InputIterator first, InputIterator last)
+            {
 				ft::vector_iterator<T> it1 = this->begin();
                 ft::vector_iterator<T> ite1 = this->end();
                 int place = 0;
 				int temp = 0;
 				int count = 0;
-                
+
 				while (first != last )
                 {
                     count++;
