@@ -27,6 +27,14 @@ namespace ft
                 return this->_myTab[i];
             }
 
+            ft::vector<T> operator=(ft::vector<T> const & src)
+            {
+                this->_size = src._size;
+                this->_size_hide = src._size_hide;
+                this->_myTab = src._myTab;
+                this->_tab = src._tab;
+                return *this;
+            }
             ~vector( void )
             {
                 std::cout << "Vector destructor is call." << std::endl;
@@ -454,6 +462,15 @@ namespace ft
                 this->_size_hide = n;
                 for (int i = 0; i < n; i++)
                     this->_tab.construct(this->_myTab + i, val); 
+                return ;
+            }
+
+            void swap(ft::vector<T> & src)
+            {
+                ft::vector<T> temp;
+                temp = *this;
+                *this = src;
+                src = temp;
                 return ;
             }
 

@@ -4,6 +4,7 @@
 int main()
 {
     ft::vector<int> test;
+    ft::vector<int> test3;
 
     test.push_back(0);
     test.push_back(1);
@@ -39,8 +40,26 @@ int main()
         std::cout << *it << std::endl;
         it++;
     }
+    test3.swap(test);
+    ite = test3.end();
+	it = test3.begin();
+    std::cout << "-----------------------------" << std::endl;
+    while (it != ite)
+    {
+        std::cout << *it << std::endl;
+        it++;
+    }
+    std::cout << "-----------------------------" << std::endl;
+    ite = test.end();
+	it = test.begin();
+    while (it != ite)
+    {
+        std::cout << *it << std::endl;
+        it++;
+    }
     std::cout << "------------REAL VECTOR-----------------" << std::endl;
     std::vector<int> test1;
+    std::vector<int> test2;
 
     test1.push_back(0);
     test1.push_back(1);
@@ -69,6 +88,23 @@ int main()
 	it3++;
     std::cout << "-----------------------------" << std::endl;
     test1.insert(it3, select1, select2);
+    ite3 = test1.end();
+	it3 = test1.begin();
+    while (it3 != ite3)
+    {
+        std::cout << *it3 << std::endl;
+        it3++;
+    }
+    test2.swap(test1);
+    ite3 = test2.end();
+	it3 = test2.begin();
+    std::cout << "-----------------------------" << std::endl;
+    while (it3 != ite3)
+    {
+        std::cout << *it3 << std::endl;
+        it3++;
+    }
+    std::cout << "-----------------------------" << std::endl;
     ite3 = test1.end();
 	it3 = test1.begin();
     while (it3 != ite3)
