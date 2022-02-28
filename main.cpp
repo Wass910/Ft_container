@@ -22,12 +22,9 @@ int main()
         std::cout << *it << std::endl;
         it++;
     }
-    it = test.begin();
-    it++;
-    it++;
-    it++;
     std::cout << "-----------------------------" << std::endl;
-    it = test.insert(it ,  10);
+    test.assign(10,100);
+    it = test.begin();
     ite = test.end();
     while (it != ite)
     {
@@ -54,10 +51,9 @@ int main()
         std::cout << *it3 << std::endl;
         it3++;
     }
-    it3 = test1.begin();
-    it3 += 3;
     std::cout << "-----------------------------" << std::endl;
-    it3 = test1.insert(it3,10);
+    test1.assign(10,100);
+    it3 = test1.begin();
     ite3 = test1.end();
     while (it3 != ite3)
     {

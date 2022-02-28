@@ -388,6 +388,18 @@ namespace ft
                 return it2;
             }
 
+            void assign(unsigned int n, const T & val)
+            {
+                this->_myTab = this->_tab.allocate(n, 0);
+                this->_size = n;
+                this->_size_hide = n;
+                for (int i = 0; i < n; i++)
+                {
+                    this->_tab.construct(this->_myTab + i, val); 
+                }
+                return ;
+            }
+
             friend bool operator==(const vector & lhs, const vector & rhs)
             {
                 if (lhs.size() == rhs.size())
