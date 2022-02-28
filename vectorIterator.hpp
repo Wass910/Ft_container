@@ -114,6 +114,18 @@ namespace ft
                 return temp;
             }
 
+            vector_iterator  operator+=( int val ) 
+            {
+                this->p = this->p + val; 
+                return *this;
+            }
+
+            vector_iterator  operator-=( int val ) 
+            {
+                this->p = this->p - val; 
+                return *this;
+            }
+
             vector_iterator  operator/( vector_iterator const & src )
             {
                 vector_iterator temp;
@@ -245,6 +257,18 @@ namespace ft
                 vector_const_iterator temp;
                 temp.p = this->p - src.p; 
                 return temp;
+            }
+
+            vector_const_iterator operator+=( int val ) 
+            {
+                this->p = this->p + val; 
+                return *this;
+            }
+
+            vector_const_iterator operator-=( int val ) 
+            {
+                this->p = this->p - val; 
+                return *this;
             }
 
             vector_const_iterator const operator/( vector_const_iterator const & src )
@@ -379,6 +403,18 @@ namespace ft
                 return temp;
             }
 
+            vector_const_reverse_iterator operator+=( int val ) 
+            {
+                this->p = this->p + val; 
+                return *this;
+            }
+
+            vector_const_reverse_iterator operator-=( int val ) 
+            {
+                this->p = this->p - val; 
+                return *this;
+            }
+
             vector_const_reverse_iterator const operator/( vector_const_reverse_iterator const & src )
             {
                 vector_const_reverse_iterator temp;
@@ -509,6 +545,18 @@ namespace ft
                 vector_reverse_iterator temp;
                 temp.p = this->p - src.p; 
                 return temp;
+            }
+            
+            vector_reverse_iterator operator+=( int val ) 
+            {
+                this->p = this->p + val; 
+                return *this;
+            }
+
+            vector_reverse_iterator operator-=( int val ) 
+            {
+                this->p = this->p - val; 
+                return *this;
             }
 
             vector_reverse_iterator  operator/( vector_reverse_iterator const & src )

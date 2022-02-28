@@ -388,15 +388,72 @@ namespace ft
                 return it2;
             }
 
+            template <class InputIterator>
+			void insert (ft::vector_iterator<T> position, InputIterator first, InputIterator last){
+				
+				std::cout << "first: " << *first << " last: " << *last << std::endl;
+
+				ft::vector_iterator<T> it1 = this->begin();
+                ft::vector_iterator<T> ite1 = this->end();
+                int place = 0;
+				int temp = 0;
+				int count = 0;
+				int fckwassim;
+
+                while (first != last )
+                {
+                    count++;
+                    if (count > this->_size_hide)
+                        return ;
+                    first++;
+                }
+				fckwassim = count;
+				while(fckwassim)
+				{
+					first--;
+					fckwassim--;
+				}
+				while (it1 != position)
+				{
+					it1++;
+					place++;
+				}
+				fckwassim = place;
+				while(fckwassim)
+				{
+					it1--;
+					fckwassim--;
+				}
+                T *tmp = this->_myTab;
+                this->_size +=count;
+                this->_size_hide +=count;
+                this->_myTab = this->_tab.allocate(this->_size , 0);
+                for (int i = 0; i < this->_size  ; i++)
+                {  
+                    
+                    if (i == place)
+                    {
+                        while (count > 0)
+                        {
+                            this->_tab.construct(this->_myTab + i, *first); 
+                            i++;
+							first++;
+                            count--;
+                        }
+                        i--;
+                    }
+                    else
+                        this->_tab.construct(this->_myTab + i, tmp[temp++]);  
+                }
+			}
+
             void assign(unsigned int n, const T & val)
             {
                 this->_myTab = this->_tab.allocate(n, 0);
                 this->_size = n;
                 this->_size_hide = n;
                 for (int i = 0; i < n; i++)
-                {
                     this->_tab.construct(this->_myTab + i, val); 
-                }
                 return ;
             }
 
