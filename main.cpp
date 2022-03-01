@@ -1,5 +1,6 @@
 #include "vector.hpp"
 #include <vector>
+#include <typeinfo>
 
 int main()
 {
@@ -14,10 +15,10 @@ int main()
     test.pop_back();
     test.pop_back();
     test.push_back(20);
-    
+    unsigned int t = 10;
     ft::vector_iterator<int> it = test.begin(); 
     ft::vector_iterator<int> ite = test.end();
-    test.insert(it, it, ite);
+    test.assign(it, ite);
     it = test.begin(); 
     ite = test.end();
     while (it != ite)
@@ -39,7 +40,7 @@ int main()
     test1.push_back(20);
     std::vector<int>::iterator ok = test1.begin();
     std::vector<int>::iterator oke = test1.end();
-    test1.insert(ok, ok, oke);
+    test1.assign(ok, oke);
     oke = test1.end();
     ok = test1.begin();
     while (ok != oke)

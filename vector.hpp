@@ -506,6 +506,8 @@ namespace ft
 
             void assign(unsigned int n, const T & val)
             {
+                if (this->_myTab != NULL)
+                    this->_tab.deallocate(this->_myTab, this->_size);
                 this->_myTab = this->_tab.allocate(n, 0);
                 this->_size = n;
                 this->_size_hide = n;
@@ -515,12 +517,34 @@ namespace ft
             }
 
             template <class InputIterator>
-            void assign (InputIterator first, InputIterator last)
-            {
-				this->clear();
-				for(first; first != last; first++)
-					this->push_back(*first);
-			}
+                void assign (InputIterator first, InputIterator last)
+                {
+                    InputIterator it = first;
+                    InputIterator ite = last;
+                    int count = 0;
+                    
+                    while (it != ite)
+                    {
+                        count++;
+                        it++;
+                    }
+                    T tmp[count];
+                    count = 0;
+                    while (first != last)
+                    {
+                        tmp[count] = *first;
+                        count++;
+                        first++;
+                    }
+                    if (this->_myTab != NULL)
+                        this->_tab.deallocate(this->_myTab, this->_size);
+                    this->_size = count;
+                    this->_size_hide = count;
+                    this->_myTab = this->_tab.allocate(count + 1, 0);
+                    for(int i = 0; i < count; i++)
+                        this->_tab.construct(this->_myTab + i, tmp[i]);
+                    std::cout << this->_myTab[0] << " oui\n"; 
+                }
 
             void swap(ft::vector<T> & src)
             {
