@@ -370,6 +370,63 @@ namespace ft
                 return (it);
             } 
             
+            template <class InputIterator>
+			void insert (InputIterator position, InputIterator first, InputIterator last)
+            {
+				ft::vector_iterator<T> it1 = this->begin();
+                ft::vector_iterator<T> ite1 = this->end();
+                int place = 0;
+				int temp = 0;
+				int count = 0;
+                int value_counter = 0;
+
+				while (first != last )
+                {
+                    count++;
+                    if (count > this->_size_hide)
+                        return ;
+                    first++;
+                }
+                T value[count];
+				first -=count;
+				while (it1 != position)
+				{
+					it1++;
+					place++;
+				}
+                for (int i = 0;first != last; i++ )
+                {
+                    value[i] = *first;
+                    first++;
+                }
+				it1 -= place;
+                T *tmp = this->_tab_tmp.allocate(this->_size_hide + 1, 0);
+                for (int i = 0; i < this->_size_hide; i++)
+                        this->_tab.construct(tmp + i, this->_myTab[i]);
+                this->_tab.deallocate(this->_myTab, this->_size_hide);
+                this->_size +=count;
+                this->_size_hide +=count;
+                this->_myTab = this->_tab.allocate(this->_size , 0);
+                for (int i = 0; i < this->_size  ; i++)
+                {  
+                    
+                    if (i == place)
+                    {
+                        while (count > 0)
+                        {
+                            this->_tab.construct(this->_myTab + i, value[value_counter]);
+                            i++;
+							value_counter++;
+                            count--;
+                        }
+                        i--;
+                    }
+                    else
+                        this->_tab.construct(this->_myTab + i, tmp[temp++]);  
+                }
+                this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
+			}
+
             void insert(ft::vector_iterator<T> it, unsigned int n, const T & val)
             {
                 ft::vector_iterator<T> it1 = this->begin();
@@ -382,7 +439,10 @@ namespace ft
                     place++;
                     it1++;
                 }
-                T *tmp = this->_myTab;
+                T *tmp = this->_tab_tmp.allocate(this->_size_hide + 1, 0);
+                for (int i = 0; i < this->_size_hide; i++)
+                        this->_tab.construct(tmp + i, this->_myTab[i]);
+                this->_tab.deallocate(this->_myTab, this->_size_hide);
                 this->_size += n;
                 this->_size_hide += n;
                 this->_myTab = this->_tab.allocate(this->_size , 0);
@@ -402,6 +462,7 @@ namespace ft
                     else
                         this->_tab.construct(this->_myTab + i, tmp[temp++]);  
                 }
+                this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
             }
 
             ft::vector_iterator<T> insert(ft::vector_iterator<T> it, const T & val)
@@ -416,9 +477,12 @@ namespace ft
                     place++;
                     it1++;
                 }
-                T *tmp = this->_myTab;
+                T *tmp = this->_tab_tmp.allocate(this->_size_hide + 1, 0);
+                for (int i = 0; i < this->_size_hide; i++)
+                        this->_tab.construct(tmp + i, this->_myTab[i]);
                 this->_size++;
                 this->_size_hide++;
+                this->_tab.deallocate(this->_myTab, this->_size_hide);
                 this->_myTab = this->_tab.allocate(this->_size , 0);
                 for (int i = 0; i < this->_size  ; i++)
                 {  
@@ -428,6 +492,7 @@ namespace ft
                     else
                         this->_tab.construct(this->_myTab + i, tmp[temp++]);  
                 }
+                this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
                 ft::vector_iterator<T> it2 = this->begin();
                 while (place > 0)
                 {
@@ -437,51 +502,7 @@ namespace ft
                 return it2;
             }
 
-            template <class InputIterator>
-			void insert (ft::vector_iterator<T> position, InputIterator first, InputIterator last)
-            {
-				ft::vector_iterator<T> it1 = this->begin();
-                ft::vector_iterator<T> ite1 = this->end();
-                int place = 0;
-				int temp = 0;
-				int count = 0;
-
-				while (first != last )
-                {
-                    count++;
-                    if (count > this->_size_hide)
-                        return ;
-                    first++;
-                }
-				first -=count;
-				while (it1 != position)
-				{
-					it1++;
-					place++;
-				}
-				it1 -= place;
-                T *tmp = this->_myTab;
-                this->_size +=count;
-                this->_size_hide +=count;
-                this->_myTab = this->_tab.allocate(this->_size , 0);
-                for (int i = 0; i < this->_size  ; i++)
-                {  
-                    
-                    if (i == place)
-                    {
-                        while (count > 0)
-                        {
-                            this->_tab.construct(this->_myTab + i, *first); 
-                            i++;
-							first++;
-                            count--;
-                        }
-                        i--;
-                    }
-                    else
-                        this->_tab.construct(this->_myTab + i, tmp[temp++]);  
-                }
-			}
+            
 
             void assign(unsigned int n, const T & val)
             {
