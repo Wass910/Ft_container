@@ -10,7 +10,7 @@ namespace ft
     class vector{
         public:
 
-            vector( void ) : _size(0), _size_hide(0)
+            vector( void ) : _size(0), _size_hide(0), _myTab(NULL)
             {
                 std::cout << "Vector constructor is call." << std::endl;
                 return ;
@@ -38,6 +38,8 @@ namespace ft
             ~vector( void )
             {
                 std::cout << "Vector destructor is call." << std::endl;
+                std::cout << "size_hide = " << this->_size_hide << "\n";
+                this->_tab.deallocate(this->_myTab, this->_size_hide);
                 return ;
             }
 
@@ -61,7 +63,10 @@ namespace ft
             ft::vector_iterator<T>   end( void ) const
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_iterator<T>   it(this->_myTab + this->_size_hide);
                 return (it);
             }
@@ -77,7 +82,10 @@ namespace ft
             ft::vector_iterator<T>   end( void )
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_iterator<T>   it(this->_myTab + this->_size_hide);
                 return (it);
             }
@@ -93,7 +101,10 @@ namespace ft
             ft::vector_const_iterator<T>   cend( void ) const
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_const_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_const_iterator<T>   it(this->_myTab + this->_size_hide);
                 return (it);
             }
@@ -109,7 +120,10 @@ namespace ft
             ft::vector_const_iterator<T>   cend( void )
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_const_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_const_iterator<T>   it(this->_myTab + this->_size_hide);
                 return (it);
             }
@@ -125,7 +139,10 @@ namespace ft
             ft::vector_const_reverse_iterator<T>   crend( void )  
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_const_reverse_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_const_reverse_iterator<T>   it(this->_myTab - 1);
                 return (it);
             }
@@ -141,7 +158,10 @@ namespace ft
             ft::vector_const_reverse_iterator<T>   crend( void )  const
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_const_reverse_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_const_reverse_iterator<T>   it(this->_myTab - 1);
                 return (it);
             }
@@ -157,7 +177,10 @@ namespace ft
             ft::vector_reverse_iterator<T>   rend( void )  const
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_reverse_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_reverse_iterator<T>   it(this->_myTab - 1);
                 return (it);
             }
@@ -173,7 +196,10 @@ namespace ft
             ft::vector_reverse_iterator<T>   rend( void )  
             {
                 if (this->_size_hide == 0)
-                    return NULL;
+                {    
+                    ft::vector_reverse_iterator<T>   it1(this->_myTab);
+                    return it1;
+                }
                 ft::vector_reverse_iterator<T>   it(this->_myTab - 1);
                 return (it);
             }
@@ -217,10 +243,21 @@ namespace ft
 
             void push_back(const T & val)
             {
-                T *tmp = this->_myTab;
+                T *tmp = NULL;
+                if (this->_myTab)
+                {    
+                    tmp = this->_tab_tmp.allocate(this->_size_hide + 1, 0);
+                    for (int i = 0; i < this->_size_hide; i++)
+                        this->_tab.construct(tmp + i, this->_myTab[i]); 
+                    this->_tab.deallocate(this->_myTab, this->_size_hide);
+                }
                 this->_myTab = this->_tab.allocate(this->_size + 1, 0);
-                for (int i = 0; i < this->_size ; i++)
-                    this->_tab.construct(this->_myTab + i, tmp[i]);
+                if (tmp != NULL)
+                {
+                    for (int i = 0; i < this->_size; i++)
+                        this->_tab.construct(this->_myTab + i, tmp[i]);
+                    this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
+                }
                 this->_tab.construct(this->_myTab + _size_hide, val);
                 if (this->_size <= this->_size_hide)
                     _size++;
@@ -232,12 +269,16 @@ namespace ft
             {
                 if (this->_size_hide == 0)
                     return ;
-                T *tmp = this->_myTab;
+                T *tmp = this->_tab_tmp.allocate(this->_size_hide + 1, 0);
+                for (int i = 0; i < this->_size_hide; i++)
+                        this->_tab.construct(tmp + i, this->_myTab[i]); 
+                this->_tab.deallocate(this->_myTab, this->_size_hide);
                 this->_myTab = this->_tab.allocate(this->_size, 0);
                 this->_size--;
                 this->_size_hide--;
                 for (int i = 0; i < this->_size ; i++)
                     this->_tab.construct(this->_myTab + i, tmp[i]);
+                this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
                 return ;
             }
 
@@ -271,7 +312,7 @@ namespace ft
                 }
                 T *tmp = this->_myTab;
                 this->_tab.destroy(this->_myTab + to_erase);
-                this->_myTab = this->_tab.allocate(this->_size, 0);
+                //this->_myTab = this->_tab.allocate(this->_size, 0);
                 this->_size_hide--;
                 int temp = 0;
                 for (int i = 0; i < this->_size ; i++)
@@ -308,7 +349,7 @@ namespace ft
                 T *tmp = this->_myTab;
                 for (int i = to_erase_begin; i < to_erase_end; i++ )
                     this->_tab.destroy(this->_myTab + i);
-                this->_myTab = this->_tab.allocate(this->_size - (to_erase_end - to_erase_begin), 0);
+                //this->_myTab = this->_tab.allocate(this->_size - (to_erase_end - to_erase_begin), 0);
                 this->_size_hide-= (to_erase_end - to_erase_begin);
                 int temp = 0;
                 for (int i = 0; i < this->_size  ; i++)
@@ -563,8 +604,10 @@ namespace ft
 
         private:
             std::allocator<T>    _tab;
+            std::allocator<T>    _tab_tmp;
             T                    *_myTab;
             size_t                 _size;
             size_t                 _size_hide;
+            int                     _leaks;
     };
 }
