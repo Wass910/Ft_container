@@ -10,11 +10,53 @@ namespace ft
     class vector{
         public:
 
-            vector( void ) : _size(0), _size_hide(0), _myTab(NULL)
+            typedef Alloc												allocator_type;
+            typedef size_t												size_type;
+
+            explicit vector (const allocator_type& alloc = allocator_type()) 
             {
-                std::cout << "Vector constructor is call." << std::endl;
-                return ;
+                this->_size = 0;
+                this->_size_hide = 0;
+                this->_myTab = NULL;
             }
+
+            explicit vector (size_type n, const T & val = T(), const allocator_type& alloc = allocator_type()) 
+            {
+                this->_size = n;
+                this->_size_hide = n;
+                this->_myTab = this->_tab.allocate(n);
+                for (size_t i = 0; i < n; i++) 
+                    this->_tab.construct(this->_myTab + i, val);
+            }
+
+            template <class InputIterator>
+            vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+            {
+                    InputIterator it = first;
+                    InputIterator ite = last;
+                    int count = 0;
+                   
+                    if (first > last)
+                        throw std::length_error("Error : at out of range error");
+                    while (it != ite)
+                    {
+                        count++;
+                        it++;
+                    }
+                    T tmp[count];
+                    count = 0;
+                    while (first != last)
+                    {
+                        tmp[count] = *first;
+                        count++;
+                        first++;
+                    }
+                    this->_size = count;
+                    this->_size_hide = count;
+                    this->_myTab = this->_tab.allocate(count + 1, 0);
+                    for(int i = 0; i < count; i++)
+                        this->_tab.construct(this->_myTab + i, tmp[i]);
+                }
 
             vector( vector const & src ) : _size(src._size), _size_hide(src._size_hide), _tab(src._tab), _myTab(src._myTab)
             {
@@ -42,14 +84,6 @@ namespace ft
                 this->_tab.deallocate(this->_myTab, this->_size_hide);
                 return ;
             }
-
-            class outOfRange : public std::exception {
-            public:
-                virtual const char* what() const throw()
-                {
-                    return ("Out of range.");
-                }
-            };
 
             
             ft::vector_iterator<T>   begin( void ) const
@@ -231,7 +265,7 @@ namespace ft
             T   & at( size_t value ) const
             {
                 if (value > this->_size_hide)
-                    throw outOfRange();
+                    throw std::out_of_range("Error : at out of range error");
                 return this->_myTab[value];
             }
 
@@ -335,6 +369,8 @@ namespace ft
                 int to_erase_begin = 0;
                 int to_erase_end = 0;
 
+                if (it > ite)
+                        throw std::length_error("Error : at out of range error");
                 while (it1 != ite )
                 {
                     to_erase_end++;
@@ -380,6 +416,8 @@ namespace ft
 				int count = 0;
                 int value_counter = 0;
 
+                if (first > last)
+                        throw std::length_error("Error : at out of range error");
 				while (first != last )
                 {
                     count++;
@@ -519,6 +557,8 @@ namespace ft
             template <class InputIterator>
                 void assign (InputIterator first, InputIterator last)
                 {
+                    if (first > last)
+                        throw std::length_error("Error : at out of range error");
                     InputIterator it = first;
                     InputIterator ite = last;
                     int count = 0;
@@ -543,7 +583,6 @@ namespace ft
                     this->_myTab = this->_tab.allocate(count + 1, 0);
                     for(int i = 0; i < count; i++)
                         this->_tab.construct(this->_myTab + i, tmp[i]);
-                    std::cout << this->_myTab[0] << " oui\n"; 
                 }
 
             void swap(ft::vector<T> & src)
