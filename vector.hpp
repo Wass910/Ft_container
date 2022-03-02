@@ -1,3 +1,7 @@
+#ifndef VECTOR_HPP
+# define VECTOR_HPP
+
+
 #include <iostream>
 #include <memory>
 #include <exception>
@@ -594,6 +598,76 @@ namespace ft
                 return ;
             }
 
+			size_t capacity() const{
+				return this->_size;
+			}
+
+			void reserve(size_t n){
+				if(n <= this->_size)
+					return;
+				this->_size = n;
+				ft::vector_iterator<T> it1 = this->begin();
+                ft::vector_iterator<T> ite1 = this->end();
+                int temp = 0;
+                T *tmp = this->_tab_tmp.allocate(this->_size_hide, 0);
+                for (int i = 0; i < this->_size_hide; i++)
+                        this->_tab.construct(tmp + i, this->_myTab[i]);
+                this->_tab.deallocate(this->_myTab, this->_size_hide);
+                this->_myTab = this->_tab.allocate(n , 0);
+				for (int i = 0; i < this->_size_hide  ; i++) 
+                	this->_tab.construct(this->_myTab + i, tmp[temp++]);
+                this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
+				return;
+			}
+
+			void resize (size_t n, T val = T()){
+				ft::vector_iterator<T> its = this->begin();
+				ft::vector_iterator<T> ite = this->end();
+				int place = 0;
+				if(n < this->size())
+				{
+					for(int i = 0; i < n ; i++)
+					{
+						its++;
+						place++;
+					}
+					for((void)its; its != ite; its++)
+					{
+						this->_tab.destroy(this->_myTab + place);
+						place++;
+						this->_size_hide--;
+					}
+				}
+				else if (n > this->size())
+				{
+					if(this->_size > n)
+					{
+						for (int i = this->_size_hide; i < this->_size  ; i++)
+						{
+                			this->_tab.construct(this->_myTab + i, val);
+							this->_size_hide++;
+						}
+					}
+					else{
+               			T *tmp = this->_tab_tmp.allocate(this->_size_hide, 0);
+                		for (int i = 0; i < this->_size_hide; i++)
+                        	this->_tab.construct(tmp + i, this->_myTab[i]);
+                		this->_tab.deallocate(this->_myTab, this->_size_hide);
+                		this->_myTab = this->_tab.allocate(n , 0);
+						for (int i = 0; i < this->_size_hide  ; i++) 
+                			this->_tab.construct(this->_myTab + i, tmp[i]);
+						for (int i = this->_size_hide; i < n  ; i++)
+						{
+                			this->_tab.construct(this->_myTab + i, val);
+							this->_size_hide++;
+						}
+                		this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
+						this->_size = n;
+					}
+				}
+				return;
+			}
+
             friend bool operator==(const vector & lhs, const vector & rhs)
             {
                 if (lhs.size() == rhs.size())
@@ -695,3 +769,5 @@ namespace ft
             int                     _leaks;
     };
 }
+
+#endif //VECTOR_HPP
