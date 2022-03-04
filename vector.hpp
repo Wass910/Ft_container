@@ -34,7 +34,7 @@ namespace ft
                 this->_size = n;
                 this->_size_hide = n;
                 this->_myTab = this->_tab.allocate(n);
-                for (size_t i = 0; i < n; i++) 
+                for (size_type i = 0; i < n; i++) 
                     this->_tab.construct(this->_myTab + i, val);
             }
 
@@ -44,7 +44,7 @@ namespace ft
                     InputIterator it = first;
                     InputIterator ite = last;
                     int count = 0;
-                   
+                    this->_tab = alloc;
                     if (first > last)
                         throw std::length_error("Error : at out of range error");
                     while (it != ite)
