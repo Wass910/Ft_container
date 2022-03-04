@@ -1,10 +1,10 @@
-SRC=    main.cpp\
+SRC=    main.cpp \
 
 OBJS			= $(SRC:.cpp=.o)
 
 NAME			= Vector
 
-CFLAGS			= -Wall -Wextra -Werror -std=c++98
+CFLAGS			= -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 
 RM				= rm -f
 
