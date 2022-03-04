@@ -5,7 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <exception>
-#include "vectorIterator.hpp"
+#include <iterator>
 
 namespace ft
 {
@@ -15,17 +15,19 @@ namespace ft
         public:
 
             typedef Alloc												allocator_type;
-            typedef size_t												size_type;
+            typedef int												    size_type;
 
             explicit vector (const allocator_type& alloc = allocator_type()) 
             {
                 this->_size = 0;
                 this->_size_hide = 0;
                 this->_myTab = NULL;
+                this->_tab = alloc;
             }
 
             explicit vector (size_type n, const T & val = T(), const allocator_type& alloc = allocator_type()) 
             {
+                this->_tab = alloc;
                 this->_size = n;
                 this->_size_hide = n;
                 this->_myTab = this->_tab.allocate(n);
@@ -73,7 +75,564 @@ namespace ft
                 return this->_myTab[i];
             }
 
-            ft::vector<T> & operator=(ft::vector<T> const & src)
+            class iterator : public std::iterator<std::input_iterator_tag, int>{
+                public:
+                    iterator(void) 
+                    {
+                        return ;
+                    }
+                    iterator(T * x) :p(x) 
+                    {
+                        return ;
+                    }
+
+                    iterator & operator=( iterator const & src) 
+                    {
+                        this->p = src.p;
+                        return *this ;
+                    }
+
+                    iterator(iterator const & test) :p(test.p) 
+                    {
+                        return ;
+                    }
+
+                    T& operator*( void ) const
+                    {
+                        return *p;
+                    }
+
+                    bool operator==( iterator const & it ) const
+                    {
+                        if (it.p == this->p)
+                            return true;
+                        return false;
+                    }
+
+                    bool operator!=( iterator const & ite) const
+                    {
+                        if (this->p == ite.p)
+                            return false;
+                        return true;
+                    }
+
+                    iterator operator++(int) 
+                    {
+                        iterator  temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    iterator& operator++(void) 
+                    {
+                        this->p++;
+                        return *this;
+                    }
+
+
+                    iterator operator--(int) 
+                    {
+                        iterator  temp = *this;
+                        --*this;
+                        return temp;
+                    }
+
+                    iterator& operator--(void) 
+                    {
+                        this->p--;
+                        return *this;
+                    }
+
+                    bool  operator>=( iterator const & src ) const
+                    {
+                        if (this->p >= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator<=( iterator const & src ) const
+                    {
+                        if (this->p <= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator>( iterator const & src ) const
+                    {
+                        if (this->p > src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool    operator<( iterator const & src ) const
+                    {
+                        if (this->p < src.p)
+                            return true;
+                        return false;
+                    }
+
+                    iterator  operator+( iterator const & src )
+                    {
+                        iterator temp;
+                        temp.p = this->p + src.p; 
+                        return temp;
+                    }
+
+                    iterator  operator-( iterator const & src )
+                    {
+                        iterator temp;
+                        temp.p = this->p - src.p; 
+                        return temp;
+                    }
+
+                    iterator  operator+=( int val ) 
+                    {
+                        this->p = this->p + val; 
+                        return *this;
+                    }
+
+                    iterator  operator-=( int val ) 
+                    {
+                        this->p = this->p - val; 
+                        return *this;
+                    }
+
+                    iterator  operator/( iterator const & src )
+                    {
+                        iterator temp;
+                        temp.p = this->p / src.p;
+                        return temp;
+                    }
+
+                    iterator  operator*( iterator const & src )
+                    {
+                        iterator temp;
+                        temp.p= this->p * src.p; 
+                        return temp ;
+                    }
+
+                private :
+                    T * p;
+            };
+
+            class const_iterator : public std::iterator<std::input_iterator_tag, int>{
+                public:
+                    const_iterator(void) 
+                    {
+                        return ;
+                    }
+                    const_iterator(T * x) :p(x) 
+                    {
+                        return ;
+                    }
+
+                    const_iterator & operator=( const_iterator const & src) 
+                    {
+                        this->p = src.p;
+                        return *this ;
+                    }
+
+                    const_iterator(const_iterator const & test) :p(test.p) 
+                    {
+                        return ;
+                    }
+
+                    T const & operator*( void ) const
+                    {
+                        return *p;
+                    }
+
+                    bool operator==( const_iterator const & it ) const
+                    {
+                        if (it.p == this->p)
+                            return true;
+                        return false;
+                    }
+
+                    bool operator!=( const_iterator const & ite) const
+                    {
+                        if (this->p == ite.p)
+                            return false;
+                        return true;
+                    }
+
+                    const_iterator operator++(int) 
+                    {
+                        const_iterator  temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    const_iterator& operator++(void) 
+                    {
+                        this->p++;
+                        return *this;
+                    }
+
+                    const_iterator operator--(int) 
+                    {
+                        const_iterator  temp = *this;
+                        --*this;
+                        return temp;
+                    }
+
+                    const_iterator& operator--(void) 
+                    {
+                        this->p--;
+                        return *this;
+                    }
+
+                    bool  operator>=( const_iterator const & src ) const
+                    {
+                        if (this->p >= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator<=( const_iterator const & src ) const
+                    {
+                        if (this->p <= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator>( const_iterator const & src ) const
+                    {
+                        if (this->p > src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool    operator<( const_iterator const & src ) const
+                    {
+                        if (this->p < src.p)
+                            return true;
+                        return false;
+                    }
+
+                    const_iterator const  operator+( const_iterator const & src )
+                    {
+                        const_iterator temp;
+                        temp.p = this->p + src.p; 
+                        return temp;
+                    }
+
+                    const_iterator  const operator-( const_iterator const & src )
+                    {
+                        const_iterator temp;
+                        temp.p = this->p - src.p; 
+                        return temp;
+                    }
+
+                    const_iterator operator+=( int val ) 
+                    {
+                        this->p = this->p + val; 
+                        return *this;
+                    }
+
+                    const_iterator operator-=( int val ) 
+                    {
+                        this->p = this->p - val; 
+                        return *this;
+                    }
+
+                    const_iterator const operator/( const_iterator const & src )
+                    {
+                        const_iterator temp;
+                        temp.p = this->p / src.p;
+                        return temp;
+                    }
+
+                    const_iterator const operator*( const_iterator const & src )
+                    {
+                        const_iterator temp;
+                        temp.p= this->p * src.p; 
+                        return temp ;
+                    }
+
+                private :
+                    T * p;
+            };
+
+            class const_reverse_iterator : public std::iterator<std::input_iterator_tag, int>{
+                public:
+                    const_reverse_iterator(void) 
+                    {
+                        return ;
+                    }
+                    const_reverse_iterator(T * x) :p(x) 
+                    {
+                        return ;
+                    }
+
+                    const_reverse_iterator & operator=( const_reverse_iterator const & src) 
+                    {
+                        this->p = src.p;
+                        return *this ;
+                    }
+
+                    const_reverse_iterator(const_reverse_iterator const & test) :p(test.p) 
+                    {
+                        return ;
+                    }
+
+                    T const & operator*( void ) const
+                    {
+                        return *p;
+                    }
+
+                    bool operator==( const_reverse_iterator const & it ) const
+                    {
+                        if (it.p == this->p)
+                            return true;
+                        return false;
+                    }
+
+                    bool operator!=( const_reverse_iterator const & ite) const
+                    {
+                        if (this->p == ite.p)
+                            return false;
+                        return true;
+                    }
+
+                    const_reverse_iterator operator++(int) 
+                    {
+                        const_reverse_iterator  temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    const_reverse_iterator& operator++(void) 
+                    {
+                        this->p--;
+                        return *this;
+                    }
+
+                    const_reverse_iterator operator--(int) 
+                    {
+                        const_reverse_iterator  temp = *this;
+                        --*this;
+                        return temp;
+                    }
+
+                    const_reverse_iterator& operator--(void) 
+                    {
+                        this->p++;
+                        return *this;
+                    }
+
+                    bool  operator>=( const_reverse_iterator const & src ) const
+                    {
+                        if (this->p >= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator<=( const_reverse_iterator const & src ) const
+                    {
+                        if (this->p <= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator>( const_reverse_iterator const & src ) const
+                    {
+                        if (this->p > src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool    operator<( const_reverse_iterator const & src ) const
+                    {
+                        if (this->p < src.p)
+                            return true;
+                        return false;
+                    }
+
+                    const_reverse_iterator const operator+( const_reverse_iterator const & src )
+                    {
+                        const_reverse_iterator temp;
+                        temp.p = this->p + src.p; 
+                        return temp;
+                    }
+
+                    const_reverse_iterator const operator-( const_reverse_iterator const & src )
+                    {
+                        const_reverse_iterator temp;
+                        temp.p = this->p - src.p; 
+                        return temp;
+                    }
+
+                    const_reverse_iterator operator+=( int val ) 
+                    {
+                        this->p = this->p + val; 
+                        return *this;
+                    }
+
+                    const_reverse_iterator operator-=( int val ) 
+                    {
+                        this->p = this->p - val; 
+                        return *this;
+                    }
+
+                    const_reverse_iterator const operator/( const_reverse_iterator const & src )
+                    {
+                        const_reverse_iterator temp;
+                        temp.p = this->p / src.p;
+                        return temp;
+                    }
+
+                    const_reverse_iterator const operator*( const_reverse_iterator const & src )
+                    {
+                        const_reverse_iterator temp;
+                        temp.p= this->p * src.p; 
+                        return temp ;
+                    }
+
+                private :
+                    T * p;
+            };
+
+            class reverse_iterator : public std::iterator<std::input_iterator_tag, int>{
+                public:
+                    reverse_iterator(void) 
+                    {
+                        return ;
+                    }
+                    reverse_iterator(T * x) :p(x) 
+                    {
+                        return ;
+                    }
+
+                    reverse_iterator & operator=( reverse_iterator const & src) 
+                    {
+                        this->p = src.p;
+                        return *this ;
+                    }
+
+                    reverse_iterator(reverse_iterator const & test) :p(test.p) 
+                    {
+                        return ;
+                    }
+
+                    T& operator*( void ) 
+                    {
+                        return *p;
+                    }
+
+                    bool operator==( reverse_iterator const & it ) 
+                    {
+                        if (it.p == this->p)
+                            return true;
+                        return false;
+                    }
+
+                    bool operator!=( reverse_iterator const & ite) 
+                    {
+                        if (this->p == ite.p)
+                            return false;
+                        return true;
+                    }
+
+                    reverse_iterator operator++(int) 
+                    {
+                        reverse_iterator  temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    reverse_iterator& operator++(void) 
+                    {
+                        this->p--;
+                        return *this;
+                    }
+
+                    reverse_iterator operator--(int) 
+                    {
+                        reverse_iterator  temp = *this;
+                        --*this;
+                        return temp;
+                    }
+
+                    reverse_iterator& operator--(void) 
+                    {
+                        this->p++;
+                        return *this;
+                    }
+
+                    bool  operator>=( reverse_iterator const & src ) const
+                    {
+                        if (this->p >= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator<=( reverse_iterator const & src ) const
+                    {
+                        if (this->p <= src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool  operator>( reverse_iterator const & src ) const
+                    {
+                        if (this->p > src.p)
+                            return true;
+                        return false;
+                    }
+
+                    bool    operator<( reverse_iterator const & src ) const
+                    {
+                        if (this->p < src.p)
+                            return true;
+                        return false;
+                    }
+
+                    reverse_iterator  operator+( reverse_iterator const & src )
+                    {
+                        reverse_iterator temp;
+                        temp.p = this->p + src.p; 
+                        return temp;
+                    }
+
+                    reverse_iterator  operator-( reverse_iterator const & src )
+                    {
+                        reverse_iterator temp;
+                        temp.p = this->p - src.p; 
+                        return temp;
+                    }
+                    
+                    reverse_iterator operator+=( int val ) 
+                    {
+                        this->p = this->p + val; 
+                        return *this;
+                    }
+
+                    reverse_iterator operator-=( int val ) 
+                    {
+                        this->p = this->p - val; 
+                        return *this;
+                    }
+
+                    reverse_iterator  operator/( reverse_iterator const & src )
+                    {
+                        reverse_iterator temp;
+                        temp.p = this->p / src.p;
+                        return temp;
+                    }
+
+                    reverse_iterator  operator*( reverse_iterator const & src )
+                    {
+                        reverse_iterator temp;
+                        temp.p= this->p * src.p; 
+                        return temp ;
+                    }
+                private :
+                    T * p;
+            };
+
+
+            vector<T> & operator=(vector<T> const & src)
             {
                 this->_size = src._size;
                 this->_size_hide = src._size_hide;
@@ -90,155 +649,155 @@ namespace ft
             }
 
             
-            ft::vector_iterator<T>   begin( void ) const
+            iterator   begin( void ) const
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_iterator<T>   it(this->_myTab);
+                iterator   it(this->_myTab);
                 return (it);
             }
 
-            ft::vector_iterator<T>   end( void ) const
+            iterator   end( void ) const
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_iterator<T>   it1(this->_myTab);
+                    iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_iterator<T>   it(this->_myTab + this->_size_hide);
+                iterator   it(this->_myTab + this->_size_hide);
                 return (it);
             }
 
-            ft::vector_iterator<T>   begin( void ) 
+            iterator   begin( void ) 
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_iterator<T>   it(this->_myTab);
+                iterator   it(this->_myTab);
                 return (it);
             }
 
-            ft::vector_iterator<T>   end( void )
+            iterator   end( void )
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_iterator<T>   it1(this->_myTab);
+                    iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_iterator<T>   it(this->_myTab + this->_size_hide);
+                iterator   it(this->_myTab + this->_size_hide);
                 return (it);
             }
 
-            ft::vector_const_iterator<T>   cbegin( void ) const
+            const_iterator   cbegin( void ) const
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_const_iterator<T>   it(this->_myTab);
+                const_iterator   it(this->_myTab);
                 return (it);
             }
 
-            ft::vector_const_iterator<T>   cend( void ) const
+            const_iterator   cend( void ) const
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_const_iterator<T>   it1(this->_myTab);
+                    const_iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_const_iterator<T>   it(this->_myTab + this->_size_hide);
+                const_iterator   it(this->_myTab + this->_size_hide);
                 return (it);
             }
 
-            ft::vector_const_iterator<T>   cbegin( void ) 
+            const_iterator   cbegin( void ) 
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_const_iterator<T>   it(this->_myTab);
+                const_iterator   it(this->_myTab);
                 return (it);
             }
 
-            ft::vector_const_iterator<T>   cend( void )
+            const_iterator   cend( void )
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_const_iterator<T>   it1(this->_myTab);
+                    const_iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_const_iterator<T>   it(this->_myTab + this->_size_hide);
+                const_iterator   it(this->_myTab + this->_size_hide);
                 return (it);
             }
             
-            ft::vector_const_reverse_iterator<T>   crbegin( void  )  
+            const_reverse_iterator   crbegin( void  )  
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_const_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                const_reverse_iterator   it(this->_myTab + this->_size_hide - 1);
                 return (it);
             }
 
-            ft::vector_const_reverse_iterator<T>   crend( void )  
+            const_reverse_iterator   crend( void )  
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_const_reverse_iterator<T>   it1(this->_myTab);
+                    const_reverse_iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_const_reverse_iterator<T>   it(this->_myTab - 1);
+                const_reverse_iterator   it(this->_myTab - 1);
                 return (it);
             }
 
-            ft::vector_const_reverse_iterator<T>   crbegin( void  )  const
+            const_reverse_iterator   crbegin( void  )  const
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_const_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                const_reverse_iterator   it(this->_myTab + this->_size_hide - 1);
                 return (it);
             }
 
-            ft::vector_const_reverse_iterator<T>   crend( void )  const
+            const_reverse_iterator   crend( void )  const
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_const_reverse_iterator<T>   it1(this->_myTab);
+                    const_reverse_iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_const_reverse_iterator<T>   it(this->_myTab - 1);
+                const_reverse_iterator   it(this->_myTab - 1);
                 return (it);
             }
 
-            ft::vector_reverse_iterator<T>   rbegin( void  )  const
+            reverse_iterator   rbegin( void  )  const
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                reverse_iterator   it(this->_myTab + this->_size_hide - 1);
                 return (it);
             }
 
-            ft::vector_reverse_iterator<T>   rend( void )  const
+            reverse_iterator   rend( void )  const
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_reverse_iterator<T>   it1(this->_myTab);
+                    reverse_iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_reverse_iterator<T>   it(this->_myTab - 1);
+                reverse_iterator   it(this->_myTab - 1);
                 return (it);
             }
 
-            ft::vector_reverse_iterator<T>   rbegin( void  )  
+            reverse_iterator   rbegin( void  )  
             {
                 if (this->_size_hide == 0)
                     return NULL;
-                ft::vector_reverse_iterator<T>   it(this->_myTab + this->_size_hide - 1);
+                reverse_iterator   it(this->_myTab + this->_size_hide - 1);
                 return (it);
             }
 
-            ft::vector_reverse_iterator<T>   rend( void )  
+            reverse_iterator   rend( void )  
             {
                 if (this->_size_hide == 0)
                 {    
-                    ft::vector_reverse_iterator<T>   it1(this->_myTab);
+                    reverse_iterator   it1(this->_myTab);
                     return it1;
                 }
-                ft::vector_reverse_iterator<T>   it(this->_myTab - 1);
+                reverse_iterator   it(this->_myTab - 1);
                 return (it);
             }
 
@@ -326,7 +885,6 @@ namespace ft
 
                 for (size_t i = 0; i < len; i++) {
                     this->_tab.destroy(this->_myTab + i);
-                    i++;
                 }
                 this->_size_hide = 0;
             }
@@ -413,8 +971,8 @@ namespace ft
             template <class InputIterator>
 			void insert (InputIterator position, InputIterator first, InputIterator last)
             {
-				ft::vector_iterator<T> it1 = this->begin();
-                ft::vector_iterator<T> ite1 = this->end();
+				iterator it1 = this->begin();
+                iterator ite1 = this->end();
                 int place = 0;
 				int temp = 0;
 				int count = 0;
@@ -469,10 +1027,10 @@ namespace ft
                 this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
 			}
 
-            void insert(ft::vector_iterator<T> it, unsigned int n, const T & val)
+            void insert(iterator it, unsigned int n, const T & val)
             {
-                ft::vector_iterator<T> it1 = this->begin();
-                ft::vector_iterator<T> ite1 = this->end();
+                iterator it1 = this->begin();
+                iterator ite1 = this->end();
                 int place = 0;
                 int temp = 0;
 
@@ -507,10 +1065,10 @@ namespace ft
                 this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
             }
 
-            ft::vector_iterator<T> insert(ft::vector_iterator<T> it, const T & val)
+            iterator insert(iterator it, const T & val)
             {
-                ft::vector_iterator<T> it1 = this->begin();
-                ft::vector_iterator<T> ite1 = this->end();
+                iterator it1 = this->begin();
+                iterator ite1 = this->end();
                 int place = 0;
                 int temp = 0;
 
@@ -535,7 +1093,7 @@ namespace ft
                         this->_tab.construct(this->_myTab + i, tmp[temp++]);  
                 }
                 this->_tab_tmp.deallocate(tmp, this->_size_hide + 1);
-                ft::vector_iterator<T> it2 = this->begin();
+                iterator it2 = this->begin();
                 while (place > 0)
                 {
                     place--;
@@ -589,25 +1147,27 @@ namespace ft
                         this->_tab.construct(this->_myTab + i, tmp[i]);
                 }
 
-            void swap(ft::vector<T> & src)
+            void swap(vector<T> & src)
             {
-                ft::vector<T> temp;
+                vector<T> temp;
                 temp = *this;
                 *this = src;
                 src = temp;
                 return ;
             }
 
-			size_t capacity() const{
+			size_t capacity() const
+            {
 				return this->_size;
 			}
 
-			void reserve(size_t n){
+			void reserve(size_t n)
+            {
 				if(n <= this->_size)
 					return;
 				this->_size = n;
-				ft::vector_iterator<T> it1 = this->begin();
-                ft::vector_iterator<T> ite1 = this->end();
+				iterator it1 = this->begin();
+                iterator ite1 = this->end();
                 int temp = 0;
                 T *tmp = this->_tab_tmp.allocate(this->_size_hide, 0);
                 for (int i = 0; i < this->_size_hide; i++)
@@ -620,9 +1180,10 @@ namespace ft
 				return;
 			}
 
-			void resize (size_t n, T val = T()){
-				ft::vector_iterator<T> its = this->begin();
-				ft::vector_iterator<T> ite = this->end();
+			void resize (size_t n, T val = T())
+            {
+				iterator its = this->begin();
+				iterator ite = this->end();
 				int place = 0;
 				if(n < this->size())
 				{
@@ -762,11 +1323,9 @@ namespace ft
 
         private:
             std::allocator<T>    _tab;
-            std::allocator<T>    _tab_tmp;
             T                    *_myTab;
             size_t                 _size;
             size_t                 _size_hide;
-            int                     _leaks;
     };
 }
 
