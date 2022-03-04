@@ -17,6 +17,9 @@ namespace ft
             typedef Alloc												allocator_type;
             typedef int												    size_type;
 
+//••••••••••••••••••••••••••••••••••••••CONSTRUCTOR••••••••••••••••••••••••••••••••••••••••••••••••••//
+
+
             explicit vector (const allocator_type& alloc = allocator_type()) 
             {
                 this->_size = 0;
@@ -70,10 +73,8 @@ namespace ft
                 return ;
             }
 
-            T & operator[]( unsigned int i ) const
-            {
-                return this->_myTab[i];
-            }
+
+//••••••••••••••••••••••••••••••••••••••CLASS•ITERATOR••••••••••••••••••••••••••••••••••••••••••••••••••••••//
 
             class iterator : public std::iterator<std::input_iterator_tag, int>{
                 public:
@@ -631,23 +632,7 @@ namespace ft
                     T * p;
             };
 
-
-            vector<T> & operator=(vector<T> const & src)
-            {
-                this->_size = src._size;
-                this->_size_hide = src._size_hide;
-                this->_myTab = src._myTab;
-                this->_tab = src._tab;
-                return *this;
-            }
-            ~vector( void )
-            {
-                std::cout << "Vector destructor is call." << std::endl;
-                std::cout << "size_hide = " << this->_size_hide << "\n";
-                this->_tab.deallocate(this->_myTab, this->_size_hide);
-                return ;
-            }
-
+//•••••••••••••••••••••••••••••••••ITERATOR•FUNCTION••••••••••••••••••••••••••••••••••••••••••••••••••••//
             
             iterator   begin( void ) const
             {
@@ -801,6 +786,33 @@ namespace ft
                 return (it);
             }
 
+//•••••••••••••••••••••••••••••••••ASSIGNATION•OPERATION••••••••••••••••••••••••••••••••••••••••••••••••••••//
+            
+            vector<T> & operator=(vector<T> const & src)
+            {
+                this->_size = src._size;
+                this->_size_hide = src._size_hide;
+                this->_myTab = src._myTab;
+                this->_tab = src._tab;
+                return *this;
+            }
+
+            T & operator[]( unsigned int i ) const
+            {
+                return this->_myTab[i];
+            }
+
+//•••••••••••••••••••••••••••••••••DESTRUCTOR•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••//
+            ~vector( void )
+            {
+                std::cout << "Vector destructor is call." << std::endl;
+                std::cout << "size_hide = " << this->_size_hide << "\n";
+                this->_tab.deallocate(this->_myTab, this->_size_hide);
+                return ;
+            }
+
+//•••••••••••••••••••••••••••ELEMENT•ACCESS•FUNCTION••••••••••••••••••••••••••••••••••••••••••••••••••••••••//
+
             bool empty( void ) const
             {
                 if (this->_size_hide == 0)
@@ -837,6 +849,7 @@ namespace ft
                 return this->_myTab[this->_size - 1];
             }
 
+//•••••••••••••••••••••••••••••••••CAPACITY•FUNCTION••••••••••••••••••••••••••••••••••••••••••••••••••••••••//
 
             void push_back(const T & val)
             {
@@ -1228,6 +1241,8 @@ namespace ft
 				}
 				return;
 			}
+
+//•••••••••••••••••••••••••••••••••RELATIONAL•OPERATOR••••••••••••••••••••••••••••••••••••••••••••••••••//
 
             friend bool operator==(const vector & lhs, const vector & rhs)
             {
