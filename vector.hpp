@@ -1158,10 +1158,23 @@ namespace ft
 
             void swap(vector<T> & src)
             {
-                vector<T> *temp = new vector<T>();
-                *temp = src;
+                std::allocator<T>    _tab1;
+                std::allocator<T>    _tab_tmp1;
+                T                    *_myTab1;
+                size_type                 _size1;
+                size_type                 _size_hide1;
+
+                _tab1 = src._tab;
+                _tab_tmp1 = src._tab_tmp;
+                _myTab1 = src._myTab;
+                _size1 = src._size;
+                _size_hide1 = src._size_hide;
                 src = *this;
-                *this = *temp;
+                this->_tab = _tab1;
+                this->_tab_tmp = _tab_tmp1;
+                this->_myTab = _myTab1;
+                this->_size = _size1;
+                this->_size_hide = _size_hide1;
                 return ;
             }
 
@@ -1277,7 +1290,7 @@ namespace ft
 					len = lhs.size();
 				else
 					len = rhs.size();
-                for(int i = 0; i < len; i++)
+                for(size_t i = 0; i < len; i++)
                     {
 						if(lhs.at(i) > rhs.at(i))
 							return false;
@@ -1294,7 +1307,7 @@ namespace ft
 					len = lhs.size();
 				else
 					len = rhs.size();
-                for(int i = 0; i < len; i++)
+                for(size_t i = 0; i < len; i++)
                     {
 						if(lhs.at(i) > rhs.at(i))
 							return false;
@@ -1309,7 +1322,7 @@ namespace ft
 					len = lhs.size();
 				else
 					len = rhs.size();
-                for(int i = 0; i < len; i++)
+                for(size_t i = 0; i < len; i++)
                     {
 						if(lhs.at(i) > rhs.at(i))
 							return true;
@@ -1324,7 +1337,7 @@ namespace ft
 					len = lhs.size();
 				else
 					len = rhs.size();
-                for(int i = 0; i < len; i++)
+                for(size_t i = 0; i < len; i++)
                     {
 						if(lhs.at(i) > rhs.at(i))
 							return true;
