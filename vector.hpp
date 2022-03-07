@@ -1180,11 +1180,12 @@ namespace ft
 
 			size_type capacity() const
             {
-                size_type cap = 1;
-                for (size_type i = 2; i < this->_size; i *= 2)
-                    cap = i;
-
-				return cap * 2;
+                size_type cap = 0;
+                size_type i = 1;
+                while (i < this->_size )
+                    i *= 2;
+                cap = i;
+				return cap ;
 			}
 
 			void reserve(size_type n)
