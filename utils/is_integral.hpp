@@ -36,5 +36,5 @@ namespace ft {
 	template <>			 struct is_integral<unsigned long long> : public true_type {};
 
 };
-
+ 
 #endif

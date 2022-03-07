@@ -67,8 +67,9 @@ namespace ft
                         this->_tab.construct(this->_myTab + i, tmp[i]);
                 }
 
-            vector( vector const & src ) : _tab(src._tab), _myTab(src._myTab),  _size(src._size), _size_hide(src._size_hide)
+            vector( vector const & src ) 
             {
+                *this = src;
                 std::cout << "Vector constructor assignation is call." << std::endl;
                 return ;
             }
@@ -790,10 +791,21 @@ namespace ft
             
             vector<T> & operator=(vector<T> const & src)
             {
-                this->_size = src._size;
-                this->_size_hide = src._size_hide;
-                this->_myTab = src._myTab;
-                this->_tab = src._tab;
+				if(*this == src)
+					return *this;
+				if(src._myTab == NULL)
+				{
+					this->_size = 0;
+					this->_size_hide = 0;
+					return *this;
+				}
+				this->clear();
+				if(src.begin() != NULL)
+					this->insert(this->end(), src.begin(), src.end());
+				else
+					this->_myTab = NULL;
+				this->_size = src._size;
+            	this->_size_hide = src._size_hide;
                 return *this;
             }
 
@@ -1169,7 +1181,10 @@ namespace ft
                 _myTab1 = src._myTab;
                 _size1 = src._size;
                 _size_hide1 = src._size_hide;
-                src = *this;
+                src._tab = this->_tab;
+				src._myTab = this->_myTab;
+				src._size = this->_size;
+				src._size_hide = this->_size_hide;
                 this->_tab = _tab1;
                 this->_tab_tmp = _tab_tmp1;
                 this->_myTab = _myTab1;
@@ -1260,7 +1275,7 @@ namespace ft
             {
                 if (lhs.size() == rhs.size())
                 {
-                    for(int i = 0; i < lhs.size(); i++)
+                    for(size_type i = 0; i < lhs.size(); i++)
                     {
                         if (lhs.at(i) != rhs.at(i))
                             return false;
@@ -1274,7 +1289,7 @@ namespace ft
             {
                 if (lhs.size() == rhs.size())
                 {
-                    for(int i = 0; i < lhs.size(); i++)
+                    for(size_type i = 0; i < lhs.size(); i++)
                     {
                         if (lhs.at(i) != rhs.at(i))
                             return true;

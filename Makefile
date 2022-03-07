@@ -1,29 +1,57 @@
-SRC=    main.cpp \
+DEFAULT = \033[0;39m
+GRAY = \033[0;90m
+RED = \033[0;91m
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN = \033[0;96m
+WHITE = \033[0;97m
+TESTCOL = \033[1;35m
 
-OBJS			= $(SRC:.cpp=.o)
+# NAME =====================================================================================
+NAME	=	containers
 
-NAME			= Vector
+# SOURCES ==================================================================================
+SRCS = main.cpp
+SRCS_DIR = ./
 
-CFLAGS			= -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
+# COMPILATION ==============================================================================
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
-RM				= rm -f
+# OBJECTS ==================================================================================
+OBJS_DIR = objects/
+OBJ = $(SRCS:.cpp=.o)
+OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
 
-CC				= c++
+# EXEC =====================================================================================
+$(OBJS_DIR)%.o:	$(SRCS_DIR)%.cpp
+	@mkdir -p $(OBJS_DIR)
+	@echo  "♻  Compiling: $<  ♻"
+	@sleep 0.3
+	@c++ $(FLAGS) -c $< -o $@
 
-%.o : %.cpp
-				$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJS)
+	@c++ $(FLAGS) -o $(NAME) $(OBJS)
+	@echo "♻   Compilation Done   ♻"
 
-$(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L.
-
-all:			$(NAME)
+all: $(NAME)
 
 clean:
-				$(RM) $(OBJS) 
+	
+	@echo  "♻  Cleaning: $(OBJS_DIR)  ♻"
+	@sleep 0.3
+	@rm -rf $(OBJS_DIR)
+	@rm -rf numbers
+	@echo  "♻  Cleaned objects  ♻"
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean: clean
+		
+		@echo  "♻  Cleaning: $(NAME)  ♻"
+		@sleep 0.3
+		@rm -f $(NAME)
+		@echo  "♻  Cleaned everything  ♻"
 
-re:				fclean all
+re: fclean all
 
-.PHONY:			all clean fclean c.o re 
+.PHONY: all clean fclean re

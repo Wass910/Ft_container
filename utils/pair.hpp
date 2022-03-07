@@ -5,7 +5,7 @@ namespace ft{
     class pair{
         public:
             pair( void ) : first(), second()
-            {
+            { 
                 return ;
             }
 
