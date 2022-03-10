@@ -54,14 +54,108 @@ namespace ft
             map( void ) 
             {
                 this->_size = 0;
-                std::cout << "Constructor is called." <<std::endl;
                 return ;
             }
 
             ~map( void ) 
             {
-                std::cout << "Destructor is called." <<std::endl;
                 return ;
+            }
+
+            class iterator : public std::iterator<std::input_iterator_tag, int>{
+                public:
+                    iterator(void) 
+                    {
+                        return ;
+                    }
+                    iterator(_map_node * x) :p(x) , begin(x), first(x->_myPair.first), second(x->_myPair.second)
+                    {
+                        return ;
+                    }
+
+                    iterator & operator=( iterator const & src) 
+                    {
+                        this->p = src.p;
+                        this->begin = src.begin;
+                        this->first = src.first;
+                        this->second = src.second;
+                        return *this ;
+                    }
+
+                    iterator(iterator const & test) :p(test.p) 
+                    {
+                        return ;
+                    }
+
+                    T & operator*( void ) 
+                    {
+                        return this->second;
+                    }
+
+                    bool operator==( iterator const & it ) const
+                    {
+                        if (it.first == this->first)
+                            return true;
+                        return false;
+                    }
+
+                    bool operator!=( iterator const & ite) const
+                    {
+                        if (this->first == ite.first)
+                            return false;
+                        return true;
+                    }
+
+                    iterator operator++(int) 
+                    {
+                        iterator  temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    iterator& operator++(void) 
+                    {
+                        this->p = this->p->next;
+                        first = this->p->_myPair.first;
+                        second = this->p->_myPair.second;
+                        return *this;
+                    }
+
+
+                    iterator operator--(int) 
+                    {
+                        iterator  temp = *this;
+                        --*this;
+                        return temp;
+                    }
+
+                    iterator& operator--(void) 
+                    {
+                        _map_node *temp = this->begin;
+                        while (temp->next && temp->next->_myPair.first != this->first)
+                        {    
+                            std::cout << this->first << std::endl;
+                            temp = temp->next;
+                        }
+                        this->p = temp;
+                        this->first = temp->_myPair.first;
+                        this->second = temp->_myPair.second;
+                        return *this;
+                    }
+
+                    Key first;
+                    T   second;
+
+                private :
+                    _map_node * p;
+                    _map_node * begin;
+                    
+            };
+
+            iterator   begin( void ) const
+            {
+                iterator   it(this->_myMap);
+                return (it);
             }
 
             map & operator=( const map & src ) 
