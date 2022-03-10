@@ -16,10 +16,8 @@ namespace ft{
 
             pair & operator=(const pair& pr)
             {
-                if (pr.first)
-                    this->first = pr.first;
-                if (pr.second)
-                    this->second = pr.second;
+                this->first = pr.first;
+                this->second = pr.second;
                 return *this;
             }
 
@@ -32,7 +30,6 @@ namespace ft{
             
             ~pair( void )
             {
-                std::cout << "Pair destructor is call.\n";
                 return ;
             }    
 
