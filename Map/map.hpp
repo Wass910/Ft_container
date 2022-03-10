@@ -6,7 +6,6 @@
 #include <memory>
 #include <exception>
 #include <iterator>
-#include "../utils/make_pair.hpp"
 
 namespace ft
 {
@@ -20,7 +19,6 @@ namespace ft
 
             map( void ) 
             {
-                this->_myMap = map_new("salut", 10); 
                 this->_size = 0;
                 std::cout << "Constructor is called." <<std::endl;
                 return ;
@@ -34,7 +32,6 @@ namespace ft
 
             map & operator=( const map & src ) 
             {
-                std::cout << "ouiiii\n";
                 this->_myMap = src._myMap;
                 this->_size = src._size;
                 return *this;
@@ -43,17 +40,32 @@ namespace ft
             T & operator[]( const Key key ) 
             {
                 _map_node *temp = this->_myMap;
-                T a = 0;
                 for (int i = 0; temp; i++)
                 {
                     if (key == temp->key)
                         return (temp->value);  
                     temp = temp->next;       
                 }
-                
-                this->map_back(&this->_myMap, this->map_new(key, a));
-                return this->_myMap->value;
-            } 
+				T a = T();
+                if (!this->_myMap)
+                    this->_myMap = map_new(key, a);
+                else
+                    this->map_back(&this->_myMap, this->map_new(key, a));
+                temp = this->_myMap;
+				for (int i = 0; temp->next; i++) 
+                    temp = temp->next;
+				return temp->value;
+            }
+
+			void display_map(){
+				_map_node *temp = this->_myMap;
+				while(temp)
+				{
+					std::cout << "display_map: " << temp->value << std::endl;
+					temp = temp->next;
+				}
+				return;
+			}
 
             
 

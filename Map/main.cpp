@@ -10,6 +10,7 @@ int	main()
     ft::map<std::string, int> trezor;
     trezor["gildas le plus bg"] = 15;
     trezor["wassim trop bg"] = 69;
-    std::cout << trezor["wassim trop bg"] << std::endl;
+    std::cout << trezor["gildas le plus bg"] << std::endl;
+    trezor.display_map();
 	return 0;
 }
