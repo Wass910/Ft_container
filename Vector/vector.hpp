@@ -654,7 +654,7 @@ namespace ft
                 return (it);
             }
 
-            iterator   begin( void ) 
+            const_iterator   begin( void ) 
             {
                 if (this->_size_hide == 0)
                     return NULL;
@@ -662,7 +662,7 @@ namespace ft
                 return (it);
             }
 
-            iterator   end( void )
+            const_iterator   end( void )
             {
                 if (this->_size_hide == 0)
                 {    

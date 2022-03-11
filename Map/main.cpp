@@ -5,36 +5,34 @@
 int	main()
 {
     std::map<std::string, int> trezor;
-    trezor["a"] = 15;
-    trezor["b"] = 0;
-    trezor["c"] = 10;
-    trezor["d"] = 10;
-    trezor["e"] = 10;
-    trezor["f"] = 10;
-    trezor["g"] = 10;
-    trezor["h"] = 10;
-    trezor["w"] = 10;
-    std::map<std::string, int>::iterator it = trezor.begin();
-    std::map<std::string, int>::iterator ite = trezor.end();
+    trezor["gildas le plus bg"] = 15;
+    trezor["wassim trop bg"] = 15;
+    trezor["wassim trop "] = 10;
+    std::map<std::string, int>::const_iterator it = trezor.cbegin();
+    std::map<std::string, int>::const_iterator ite = trezor.cend();
+    --ite;
     while (it != ite)
     {    
-        std::cout <<  &ite << std::endl;
+        std::cout <<  (*it < *ite) << std::endl;
         it++;
     }
+    ite  =trezor.cbegin();
+    trezor.max_size();
+    std::cout << trezor.max_size() << std::endl;
     std::cout << "---------------------our--------------------\n";
     ft::map<std::string, int> trezor1;
     trezor1["gildas le plus bg"] = 15;
-    
     trezor1["wassim trop bg"] = 15;
-    
     trezor1["wassim trop "] = 10;
-    ft::map<std::string, int>::iterator it1 = trezor1.begin();
-    
-    ft::map<std::string, int>::iterator ite1 = trezor1.end();
+    ft::map<std::string, int>::const_iterator it1 = trezor1.begin();
+    ft::map<std::string, int>::const_iterator ite1 = trezor1.end();
+    --ite1;
     while (it1 != ite1)
     {   
-        std::cout <<  it1.first << std::endl;
+        std::cout <<  it1->second << std::endl;
         it1++;
     } 
+    std::cout << trezor1.max_size() << std::endl;
+    trezor1.display_map();
     return 0;
 }
