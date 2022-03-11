@@ -22,13 +22,14 @@ namespace ft
             }               _map_node;
             _map_node   *_myMap;
             size_t   _size;
+            _map_node   *_end;
 
             _map_node  *map_new(Key key, T value)
             {
                 _map_node *lst = new _map_node;
 
                 lst->_myPair = ft::make_pair(key, value);
-                lst->next = NULL;
+                lst->next = this->_end;
                 return lst;
             }
 
@@ -41,9 +42,10 @@ namespace ft
                     *alst = other;
                 else
                 {
-                    while (lst->next)
+                    while (lst->next != this->_end)
+                    {   
                         lst = lst->next;
-                    lst->next = other;
+                    }lst->next = other;
                 }
             }
             
@@ -53,6 +55,8 @@ namespace ft
 
             map( void ) 
             {
+                this->_end = new _map_node;
+                this->_end->next = NULL;
                 this->_size = 0;
                 return ;
             }
@@ -158,6 +162,13 @@ namespace ft
                 return (it);
             }
 
+            iterator   end( void ) const
+            {
+                _map_node *temp = this->_myMap;
+                iterator   it(this->_end);
+                return (it);
+            }
+
             map & operator=( const map & src ) 
             {
                 this->_myMap = src._myMap;
@@ -171,7 +182,7 @@ namespace ft
                 if (this->_size != 0)
                 {
                     
-                    for (int i = 0; temp; i++)
+                    for (int i = 0; temp->next != this->_end ; i++)
                     {
                         if (key == temp->_myPair.first)
                             return (temp->_myPair.second);  
@@ -186,7 +197,7 @@ namespace ft
                     
                 this->_size++;
                 temp = this->_myMap;
-				for (int i = 0; temp->next; i++) 
+				for (int i = 0; temp->next != this->_end ; i++) 
                     temp = temp->next;
 				return temp->_myPair.second;
             }
@@ -202,7 +213,7 @@ namespace ft
             {
                 return this->_size;
             }
-            
+
 			void display_map(){
 				_map_node *temp = this->_myMap;
 				while(temp)
