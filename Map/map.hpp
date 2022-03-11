@@ -190,7 +190,19 @@ namespace ft
                     temp = temp->next;
 				return temp->_myPair.second;
             }
+            
+            bool empty( void ) const
+            {
+                if (this->_size == 0)   
+                    return true;
+                return false;
+            }
 
+            size_type size( void ) const
+            {
+                return this->_size;
+            }
+            
 			void display_map(){
 				_map_node *temp = this->_myMap;
 				while(temp)
