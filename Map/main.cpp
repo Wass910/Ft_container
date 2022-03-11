@@ -5,34 +5,51 @@
 int	main()
 {
     std::map<std::string, int> trezor;
-    trezor["gildas le plus bg"] = 15;
-    trezor["wassim trop bg"] = 15;
-    trezor["wassim trop "] = 10;
-    std::map<std::string, int>::const_iterator it = trezor.cbegin();
-    std::map<std::string, int>::const_iterator ite = trezor.cend();
-    --ite;
+    trezor["a"] = 15;
+    trezor["b"] = 15;
+    trezor["c"] = 10;
+	std::map<std::string, int> seeker;
+	seeker["d"] = 1;
+	seeker["e"] = 2;
+	std::map<std::string, int>::iterator it = trezor.begin();
+    std::map<std::string, int>::iterator ite = trezor.end();
     while (it != ite)
     {    
-        std::cout <<  (*it < *ite) << std::endl;
+        std::cout << "before swap: " << it->second << std::endl;
         it++;
     }
-    ite  =trezor.cbegin();
-    trezor.max_size();
-    std::cout << trezor.max_size() << std::endl;
+    seeker.swap(trezor);
+	it = trezor.begin();
+    ite = trezor.end();
+    while (it != ite)
+    {    
+        std::cout << "after swap: " << it->second << std::endl;
+        it++;
+    }
+
     std::cout << "---------------------our--------------------\n";
+
     ft::map<std::string, int> trezor1;
-    trezor1["gildas le plus bg"] = 15;
-    trezor1["wassim trop bg"] = 15;
-    trezor1["wassim trop "] = 10;
-    ft::map<std::string, int>::const_iterator it1 = trezor1.begin();
-    ft::map<std::string, int>::const_iterator ite1 = trezor1.end();
-    --ite1;
+    trezor1["a"] = 15;
+    trezor1["b"] = 15;
+    trezor1["c"] = 10;
+	ft::map<std::string, int> seeker1;
+    seeker1["d"] = 1;
+    seeker1["e"] = 2;
+    ft::map<std::string, int>::const_iterator it1 = trezor1.cbegin();
+    ft::map<std::string, int>::const_iterator ite1 = trezor1.cend();
     while (it1 != ite1)
     {   
-        std::cout <<  it1->second << std::endl;
+        std::cout << "before swap: " << it1->second << std::endl;
         it1++;
-    } 
-    std::cout << trezor1.max_size() << std::endl;
-    trezor1.display_map();
+    }
+	seeker1.swap(trezor1);
+	it1 = trezor1.cbegin();
+    ite1 = trezor1.cend();
+    while (it1 != ite1)
+    {   
+        std::cout <<  "after swap: " << it1->second << std::endl;
+        it1++;
+    }
     return 0;
 }

@@ -24,13 +24,21 @@ namespace ft
             _map_node   *_myMap;
             size_t   _size;
             _map_node   *_end;
+            _map_node   *_begin;
             
             _map_node  *map_new_end( void )
             {
                 _map_node *lst = new _map_node;
                 lst->next = NULL;
-                lst->begin = this->_myMap;
                 lst->_myPair = NULL;
+                return lst;
+            }
+
+            _map_node  *map_new_begin( void)
+            {
+                _map_node *lst = new _map_node;
+                lst->_myPair =  NULL;
+                lst->next = this->_end;
                 return lst;
             }
 
@@ -69,6 +77,8 @@ namespace ft
             map( void ) 
             {
                 this->_end = map_new_end();
+                this->_myMap = map_new_begin();
+                this->_end->begin = this->_myMap;
                 this->_size = 0;
                 return ;
             }
@@ -109,6 +119,7 @@ namespace ft
                     {
                         return this->p->_myPair;
                     }
+                    
                     bool operator==( iterator const & it ) const
                     {
                         if ( it.p->_myPair->first == this->p->_myPair->fist)
@@ -247,26 +258,190 @@ namespace ft
                     
             };
 
-            iterator    begin( void ) const
+            class reverse_iterator : public std::iterator<std::input_iterator_tag, int>{
+                public:
+                    reverse_iterator(void) 
+                    {
+                        return ;
+                    }
+                    reverse_iterator(_map_node * x) :p(x) 
+                    {
+                        return ;
+                    }
+
+                    reverse_iterator & operator=( reverse_iterator const & src) 
+                    {
+                        this->p = src.p;
+                        return *this ;
+                    }
+
+                    reverse_iterator(reverse_iterator const & test) :p(test.p) 
+                    {
+                        return ;
+                    }
+
+                    T & operator*( void ) 
+                    {
+                        return this->p->_myPair->second;
+                    }
+
+                    ft::pair<Key, T> * operator->( void )
+                    {
+                        return this->p->_myPair;
+                    }
+
+                    bool operator==( reverse_iterator const & it ) const
+                    {
+                        if ( it.p->_myPair->first == this->p->_myPair->fist)
+                            return true;
+                        return false;
+                    }
+
+                    bool operator!=( reverse_iterator const & ite) const
+                    {
+                        if (this->p->_myPair == ite.p->_myPair)
+                            return false;
+                        return true;
+                    }
+
+                    reverse_iterator operator++(int) 
+                    {
+                        reverse_iterator  temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    reverse_iterator& operator++(void) 
+                    {
+                        _map_node *temp = this->p->begin ;
+                        while (temp->next && temp->next->_myPair != this->p->_myPair)
+                        {    
+                            temp = temp->next;
+                        }
+                        this->p = temp;
+                        this->p->_myPair = temp->_myPair;
+                        return *this;
+                    }
+
+                    reverse_iterator operator--(int) 
+                    {
+                        reverse_iterator  temp = *this;
+                        --*this;
+                        return temp;
+                    }
+
+                    reverse_iterator& operator--(void) 
+                    {
+                        this->p = this->p->next;
+                        return *this;
+                    }
+                   
+                private :
+                    _map_node * p;
+            };
+
+            class const_reverse_iterator : public std::iterator<std::input_iterator_tag, int>{
+                public:
+                    const_reverse_iterator(void) 
+                    {
+                        return ;
+                    }
+                    const_reverse_iterator(_map_node * x) :p(x) 
+                    {
+                        return ;
+                    }
+
+                    const_reverse_iterator & operator=( const_reverse_iterator const & src) 
+                    {
+                        this->p = src.p;
+                        return *this ;
+                    }
+
+                    const_reverse_iterator(const_reverse_iterator const & test) :p(test.p) 
+                    {
+                        return ;
+                    }
+
+                    T & operator*( void ) 
+                    {
+                        return this->p->_myPair->second;
+                    }
+
+                    ft::pair<Key, T> * operator->( void )
+                    {
+                        return this->p->_myPair;
+                    }
+
+                    bool operator==( const_reverse_iterator const & it ) const
+                    {
+                        if ( it.p->_myPair->first == this->p->_myPair->fist)
+                            return true;
+                        return false;
+                    }
+
+                    bool operator!=( const_reverse_iterator const & ite) const
+                    {
+                        if (this->p->_myPair == ite.p->_myPair)
+                            return false;
+                        return true;
+                    }
+
+                    const_reverse_iterator operator++(int) 
+                    {
+                        const_reverse_iterator  temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    const_reverse_iterator& operator++(void) 
+                    {
+                        _map_node *temp = this->p->begin ;
+                        while (temp->next && temp->next->_myPair != this->p->_myPair)
+                        {    
+                            temp = temp->next;
+                        }
+                        this->p = temp;
+                        this->p->_myPair = temp->_myPair;
+                        return *this;
+                    }
+
+                    const_reverse_iterator operator--(int) 
+                    {
+                        const_reverse_iterator  temp = *this;
+                        --*this;
+                        return temp;
+                    }
+
+                    const_reverse_iterator& operator--(void) 
+                    {
+                        this->p = this->p->next;
+                        return *this;
+                    }
+                   
+                private :
+                    _map_node * p;
+            };
+
+            iterator    begin( void ) 
             {
-                iterator   it(this->_myMap);
+                iterator   it(this->_myMap->next);
                 return (it);
             }
 
-            iterator     end( void ) const
+            iterator     end( void ) 
             {
                 _map_node *temp = this->_myMap;
                 iterator   it(this->_end);
                 return (it);
             }
 
-            const_iterator    begin( void ) 
+            const_iterator    begin( void ) const
             {
                 const_iterator   it(this->_myMap);
                 return (it);
             }
 
-            const_iterator     end( void ) 
+            const_iterator     end( void ) const
             {
                 _map_node *temp = this->_myMap;
                 const_iterator   it(this->_end);
@@ -275,7 +450,7 @@ namespace ft
 
             const_iterator    cbegin( void ) const
             {
-                const_iterator   it(this->_myMap);
+                const_iterator   it(this->_myMap->next);
                 return (it);
             }
 
@@ -283,6 +458,54 @@ namespace ft
             {
                 _map_node *temp = this->_myMap;
                 const_iterator   it(this->_end);
+                return (it);
+            }
+
+            reverse_iterator    rbegin( void ) 
+            {
+                _map_node *temp = this->_myMap;
+
+                while( temp->next != this->_end)
+                    temp = temp->next; 
+                reverse_iterator   it(temp);
+                return (it);
+            }
+
+            reverse_iterator     rend( void ) 
+            {
+                reverse_iterator   it(this->_myMap);
+                return (it);
+            }
+
+            const_reverse_iterator    rbegin( void ) const
+            {
+                _map_node *temp = this->_myMap;
+
+                while( temp->next != this->_end)
+                    temp = temp->next; 
+                const_reverse_iterator   it(temp);
+                return (it);
+            }
+
+            const_reverse_iterator     rend( void ) const
+            {
+                const_reverse_iterator   it(this->_myMap);
+                return (it);
+            }
+
+            const_reverse_iterator    crbegin( void ) const
+            {
+                _map_node *temp = this->_myMap;
+
+                while( temp->next != this->_end)
+                    temp = temp->next; 
+                const_reverse_iterator   it(temp);
+                return (it);
+            }
+
+            const_reverse_iterator     crend( void ) const
+            {
+                const_reverse_iterator   it(this->_myMap);
                 return (it);
             }
 
@@ -295,7 +518,7 @@ namespace ft
 
             T & operator[]( const Key key ) 
             {
-                _map_node *temp = this->_myMap;
+                _map_node *temp = this->_myMap->next;
                 if (this->_size != 0)
                 {
                     
@@ -307,10 +530,7 @@ namespace ft
                     }
                 }
 				T a = T();
-                if (this->_size == 0)
-                    this->_myMap = map_new(key, a);
-                else
-                    this->map_back(&this->_myMap, this->map_new(key, a));
+                this->map_back(&this->_myMap, this->map_new(key, a));
                 this->_end->begin = this->_myMap;    
                 this->_size++;
                 temp = this->_myMap;
@@ -338,8 +558,8 @@ namespace ft
 					std::cout << "display_map: " << temp << std::endl;
 					temp = temp->next;
 				}
-                std::cout << "display_map: " <<this->_end << std::endl;
-                std::cout << "display_map: " <<this->_end->begin << std::endl;
+                std::cout << "display_map end: " <<this->_end << std::endl;
+                std::cout << "display_map begin in end: " <<this->_end->begin << std::endl;
 				return;
 			}
 
@@ -351,6 +571,24 @@ namespace ft
 			allocator_type get_allocator() const{
 				std::allocator<struct _map_node> _new_alloc;
 				return _new_alloc;
+			}
+
+            void swap (map& x){
+				map temp;
+
+				temp = *this;
+				*this = x;
+				x = temp;
+				//alternative(idk which one is better, need to find out):
+				//_map_node *temp;
+				//size_type temps;
+				//
+				//temp = this->_myMap;
+				//temps = this->_size;
+				//this->_myMap = x._myMap;
+				//this->_size = x._size;
+				//x._myMap = temp;
+				//x._size = temps;
 			}
     };
 }
