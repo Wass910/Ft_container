@@ -56,16 +56,30 @@ namespace ft
             void map_back(_map_node **alst, _map_node *other)
             {
                 _map_node *lst;
+                _map_node *tmp;
 
                 lst = *alst;
                 if (alst == NULL)
                     *alst = other;
                 else
                 {
-                    while (lst->next != this->_end)
+                    while (lst->next != this->_end )
                     {   
+                        if ((lst->next->_myPair && other->_myPair) && other->_myPair->first < lst->next->_myPair->first)
+                        {
+                            //std::cout << "lst = " << lst->_myPair->first << " et other = " << other->_myPair->first << std::endl;   
+                            break ;
+                        }
                         lst = lst->next;
-                    }lst->next = other;
+                    }
+                    if (lst->next == this->_end)
+                        lst->next = other;
+                    else
+                    {
+                        tmp = lst->next;
+                        lst->next = other;
+                        other->next = tmp;
+                    }
                 }
             }
             
