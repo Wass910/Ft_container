@@ -544,13 +544,11 @@ namespace ft
                     }
                 }
 				T a = T();
-                this->map_back(&this->_myMap, this->map_new(key, a));
+                _map_node *test = this->map_new(key, a);
+                this->map_back(&this->_myMap, test);
                 this->_end->begin = this->_myMap;    
                 this->_size++;
-                temp = this->_myMap;
-				for (int i = 0; temp->next != this->_end ; i++) 
-                    temp = temp->next;
-				return temp->_myPair->second;
+				return test->_myPair->second;
             }
             
             bool empty( void ) const
@@ -604,6 +602,17 @@ namespace ft
 				//x._myMap = temp;
 				//x._size = temps;
 			}
+
+            void clear( void )
+            {
+                delete this->_myMap;
+                delete this->_end;
+                this->_end = map_new_end();
+                this->_myMap = map_new_begin();
+                this->_end->begin = this->_myMap;
+                this->_size = 0; 
+                return ;
+            }
     };
 }
 
