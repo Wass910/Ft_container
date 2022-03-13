@@ -613,6 +613,48 @@ namespace ft
                 this->_size = 0; 
                 return ;
             }
+
+            size_type count (const Key& k) const
+            {
+                _map_node *temp = this->_myMap->next;
+
+                while (temp->next != this->_end)
+                {    
+                    if (temp->_myPair->first == k)
+                        return 1;
+                    temp = temp->next;
+                }
+                
+                return 0;
+            }
+
+            iterator find (const Key& k)
+            {
+                iterator it = this->begin();
+                iterator ite = this->end();
+
+                while (it != ite)
+                {    
+                    if (it->first == k)
+                        return it;
+                    it++;
+                }
+                return ite;
+            }
+
+            const_iterator find (const Key& k) const
+            {
+                const_iterator it = this->begin();
+                const_iterator ite = this->end();
+
+                while (it != ite)
+                {    
+                    if (it->first == k)
+                        return it;
+                    it++;
+                }
+                return ite;
+            }
     };
 }
 
