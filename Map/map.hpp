@@ -65,11 +65,8 @@ namespace ft
                 {
                     while (lst->next != this->_end )
                     {   
-                        if ((lst->next->_myPair && other->_myPair) && other->_myPair->first < lst->next->_myPair->first)
-                        {
-                            //std::cout << "lst = " << lst->_myPair->first << " et other = " << other->_myPair->first << std::endl;   
+                        if ((lst->next->_myPair && other->_myPair) && other->_myPair->first < lst->next->_myPair->first)   
                             break ;
-                        }
                         lst = lst->next;
                     }
                     if (lst->next == this->_end)
@@ -99,6 +96,16 @@ namespace ft
 
             ~map( void ) 
             {
+                _map_node *temp = this->_myMap;
+                while (temp->next)
+                {
+                    this->_myMap = this->_myMap->next;
+                    if (temp->_myPair)
+                        delete temp->_myPair;
+                    delete temp;
+                    temp = this->_myMap;
+                }
+                delete temp;
                 return ;
             }
 
@@ -136,7 +143,7 @@ namespace ft
                     
                     bool operator==( iterator const & it ) const
                     {
-                        if ( it.p->_myPair->first == this->p->_myPair->fist)
+                        if ( it.p->_myPair == this->p->_myPair)
                             return true;
                         return false;
                     }
@@ -605,8 +612,16 @@ namespace ft
 
             void clear( void )
             {
-                delete this->_myMap;
-                delete this->_end;
+                _map_node *temp = this->_myMap;
+                while (temp->next)
+                {
+                    this->_myMap = this->_myMap->next;
+                    if (temp->_myPair)
+                        delete temp->_myPair;
+                    delete temp;
+                    temp = this->_myMap;
+                }
+                delete temp;
                 this->_end = map_new_end();
                 this->_myMap = map_new_begin();
                 this->_end->begin = this->_myMap;
@@ -632,9 +647,10 @@ namespace ft
             {
                 iterator it = this->begin();
                 iterator ite = this->end();
-
+                
                 while (it != ite)
                 {    
+                    
                     if (it->first == k)
                         return it;
                     it++;
@@ -655,6 +671,140 @@ namespace ft
                 }
                 return ite;
             }
+
+            ft::pair<iterator, bool> insert(ft::pair<Key, T> add)
+            {
+                size_type there_is_or_not = this->count(add.first);
+                if ( there_is_or_not == 0)
+                {
+                    this->map_back(&this->_myMap, map_new(add.first, add.second));
+                    this->_size++;
+                }
+                iterator it = this->find(add.first);
+                ft::pair<iterator, bool> ret ;
+                if (there_is_or_not == 0)
+                    ret =  ft::make_pair(it, true);
+                else
+                    ret =  ft::make_pair(it, false);
+                return ret;
+            }
+
+            iterator insert( iterator it, ft::pair<Key, T> add)
+            {
+                _map_node *new_node = NULL;
+                _map_node *new_node_seg = NULL;
+                iterator its = this->begin();
+
+                if ( it != this->end())
+                {
+                    it++;
+                    if (it == its )
+                    {
+                        it--;
+                        new_node_seg = map_new(it->first, it->second);
+                        delete new_node_seg;
+                    }
+                    else    
+                        it--;
+                    new_node_seg = map_new(it->first, it->second);
+                    delete new_node_seg;
+                }
+                if ( it != this->end() && ++it == this->begin())
+                {
+                    iterator last = this->end();
+                    new_node_seg = map_new(last->first, last->second);
+                } 
+                new_node = map_new(add.first, add.second);
+                size_type there_is_or_not = this->count(add.first);
+                if ( there_is_or_not == 0)
+                {
+                    this->map_back(&this->_myMap, new_node);
+                    this->_size++;
+                }
+                else
+                    delete new_node;
+                iterator it_to_send = this->find(add.first);
+                return it_to_send;
+            }
+
+            template <class InputIterator>
+            void insert (InputIterator first, InputIterator last)
+            {
+                while (first != last)
+                {
+                    size_type there_is_or_not = this->count(first->first);
+                    if ( there_is_or_not == 0)
+                    {
+                        this->map_back(&this->_myMap, map_new(first->first, first->second));
+                        this->_size++;
+                    }
+                    first++;
+                }
+                return ;
+            }
+
+            void erase(iterator position)
+            {
+				_map_node *temp;
+				temp = this->_myMap;
+				while (temp->next->_myPair->first != position->first)
+				{
+					temp = temp->next;
+				}
+				_map_node *to_del;
+				to_del = temp->next;
+				temp->next = temp->next->next;
+				delete to_del->_myPair;
+				delete to_del;
+				this->_size--;
+				return;
+			}
+
+			size_type erase(const Key &k)
+            {
+				_map_node *temp;
+				_map_node *before;
+				temp = this->_myMap->next;
+				before = this->_myMap->next;
+				temp = temp->next;
+				while (temp->next != NULL)
+				{
+					if(temp->_myPair->first == k)
+						break;
+					temp = temp->next;
+					before = before->next;
+				}
+				if(!temp->next)
+					return 0;
+				_map_node *to_del;
+				to_del = temp;
+				before->next = temp->next;
+				delete to_del->_myPair;
+				delete to_del;
+				this->_size--;
+				return 1;
+			}
+
+			void erase(iterator first, iterator last)
+            {
+				_map_node *temp = this->_myMap->next;
+				while(temp->next->_myPair->first != first->first)
+					temp = temp->next;
+				_map_node *to_del = temp->next;
+				_map_node *end = this->_myMap->next;
+				while (end->_myPair->first != last->first)
+					end = end->next;
+				temp->next = end;
+				_map_node *erased;
+				while(to_del->_myPair->first != last->first)
+				{
+					erased = to_del;
+					to_del = to_del->next;
+					delete erased->_myPair;
+					delete erased;
+				}
+			}
+
     };
 }
 
