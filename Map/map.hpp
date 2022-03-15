@@ -24,6 +24,7 @@ namespace ft
             _map_node   *_myMap;
             size_t   _size;
             _map_node   *_end;
+            Compare     _comp;
             _map_node   *_begin;
             
             _map_node  *map_new_end( void )
@@ -83,7 +84,9 @@ namespace ft
         public:
 
             typedef Alloc												allocator_type;
-            typedef size_t												    size_type;
+            typedef size_t												size_type;
+            typedef pair< Key, T>					                    value_type;
+            typedef Compare					                            key_compare;
 
             map( void ) 
             {
@@ -109,6 +112,21 @@ namespace ft
                 return ;
             }
 
+            class value_compare{   
+                friend class map;
+                protected:
+                    Compare comp;
+                    value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+                public:
+                    typedef bool result_type;
+                    typedef value_type first_argument_type;
+                    typedef value_type second_argument_type;
+                    bool operator() (const value_type& x, const value_type& y) const
+                    {
+                        return comp(x.first, y.first);
+                    }
+            };
+
             class iterator : public std::iterator<std::input_iterator_tag, int>{
                 public:
                     iterator(void) 
@@ -131,9 +149,9 @@ namespace ft
                         return ;
                     }
 
-                    T & operator*( void ) 
+                    ft::pair<Key, T> & operator*( void ) 
                     {
-                        return this->p->_myPair->second;
+                        return *this->p->_myPair;
                     }
 
                     ft::pair<Key, T> * operator->( void )
@@ -805,6 +823,15 @@ namespace ft
 				}
 			}
 
+            key_compare key_comp() const
+            {
+                return this->_comp;
+            }
+
+            value_compare value_comp( void )
+            {
+                return (key_comp());
+            }
     };
 }
 
