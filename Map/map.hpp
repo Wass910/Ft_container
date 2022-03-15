@@ -245,7 +245,7 @@ namespace ft
                     }
                     bool operator==( const_iterator const & it ) const
                     {
-                        if ( it.p->_myPair->first == this->p->_myPair->fist)
+                        if ( it.p->_myPair == this->p->_myPair)
                             return true;
                         return false;
                     }
@@ -331,7 +331,7 @@ namespace ft
 
                     bool operator==( reverse_iterator const & it ) const
                     {
-                        if ( it.p->_myPair->first == this->p->_myPair->fist)
+                        if ( it.p->_myPair == this->p->_myPair)
                             return true;
                         return false;
                     }
@@ -413,7 +413,7 @@ namespace ft
 
                     bool operator==( const_reverse_iterator const & it ) const
                     {
-                        if ( it.p->_myPair->first == this->p->_myPair->fist)
+                        if ( it.p->_myPair == this->p->_myPair)
                             return true;
                         return false;
                     }
@@ -831,6 +831,78 @@ namespace ft
             value_compare value_comp( void )
             {
                 return (key_comp());
+            }
+
+            iterator lower_bound (const Key & k)
+            {
+                iterator it;
+                iterator ite = this->end();
+
+                it = this->find(k);
+                if (it != ite)
+                    return it;
+                it = this->begin();
+                while (it != ite)
+                {
+                    if (k < it->first)
+                        return it;
+                    it++;
+                }
+                return it;
+            }
+
+            const_iterator lower_bound (const Key & k) const
+            {
+                const_iterator it;
+                const_iterator ite = this->cend();
+
+                it = this->find(k);
+                if (it != ite)
+                    return it;
+                it = this->cbegin();
+                while (it != ite)
+                {
+                    if (k < it->first)
+                        return it;
+                    it++;
+                }
+                return it;
+            }
+
+            iterator upper_bound (const Key & k)
+            {
+                iterator it;
+                iterator ite = this->end();
+
+                it = this->find(k);
+                if (it != ite)
+                    return ++it;
+                it = this->begin();
+                while (it != ite)
+                {
+                    if (k < it->first)
+                        return it;
+                    it++;
+                }
+                return it;
+            }
+
+            const_iterator upper_bound (const Key & k) const
+            {
+                const_iterator it;
+                const_iterator ite = this->cend();
+
+                it = this->find(k);
+                if (it != ite)
+                    return ++it;
+                it = this->cbegin();
+                while (it != ite)
+                {
+                    if (k < it->first)
+                        return it;
+                    it++;
+                }
+                return it;
             }
     };
 }
