@@ -7,6 +7,7 @@
 #include <exception>
 #include <iterator>
 #include "../utils/make_pair.hpp"
+#include "../utils/lexicographical_compare.hpp"
 
 namespace ft
 {
@@ -101,15 +102,6 @@ namespace ft
             typedef size_t												size_type;
             typedef pair< Key, T>					                    value_type;
             typedef Compare					                            key_compare;
-
-            /* map( void ) 
-            {
-                this->_end = map_new_end();
-                this->_myMap = map_new_begin();
-                this->_end->begin = this->_myMap;
-                this->_size = 0;
-                return ;
-            } */
 
             explicit map (const key_compare& comp = key_compare(),
               const allocator_type& alloc = allocator_type())
@@ -630,6 +622,8 @@ namespace ft
                             return (temp->_myPair->second);  
                         temp = temp->next;       
                     }
+                    if (key == temp->_myPair->first)
+                            return (temp->_myPair->second); 
                 }
                 if (this->count(key) == 0)
                     this->_size++;
@@ -993,7 +987,9 @@ namespace ft
                 }
                 return it;
             }
-			pair<iterator,iterator>             equal_range (const Key& k){
+
+			pair<iterator,iterator>             equal_range (const Key& k)
+            {
 				iterator temp = this->begin();
 				while(temp->first && temp->first != k)
 					temp++;
@@ -1005,7 +1001,9 @@ namespace ft
 				returned = ft::make_pair(iterator(), iterator());
 				return returned;
 			}
-			pair<const_iterator,const_iterator> equal_range (const Key& k) const{
+			
+            pair<const_iterator,const_iterator> equal_range (const Key& k) const
+            {
 				const_iterator temp = this->cbegin();
 				while(temp->first && temp->first != k)
 					temp++;
@@ -1017,6 +1015,89 @@ namespace ft
 				returned = ft::make_pair(const_iterator(), const_iterator());
 				return returned;
 			}
+
+            friend bool operator==(const map & lhs, const map & rhs)
+            {
+                const_iterator it = lhs.cbegin();
+                const_iterator it1 =  rhs.cbegin();
+
+                if (lhs.size() == rhs.size())
+                {
+                    for(size_type i = 0; i < lhs.size(); i++)
+                    {
+                        if (it->first != it1->first || it->second != it1->second)
+                            return false;
+                        it++;
+                        it1++;
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+            friend bool operator!=(const map & lhs, const map & rhs)
+            {
+                const_iterator it = lhs.cbegin();
+                const_iterator it1 =  rhs.cbegin();
+
+                if (lhs.size() == rhs.size())
+                {
+                    for(size_type i = 0; i < lhs.size(); i++)
+                    {
+                        if (it->first != it1->first || it->second != it1->second)
+                            return true;
+                        it++;
+                        it1++;
+                    }
+                    return false;
+                }
+                return true;
+            }
+
+            friend bool operator<(const map & lhs, const map & rhs)
+            {
+                const_iterator it = lhs.cbegin();
+                const_iterator ite = lhs.cend();
+                const_iterator it1 =  rhs.cbegin();
+                const_iterator ite1 = rhs.cend();
+
+                return ft::lexicographical_compare<const_iterator , const_iterator>(it , ite, it1, ite1);
+            }
+
+            friend bool operator<=(const map & lhs, const map & rhs)
+            {
+                const_iterator it = lhs.cbegin();
+                const_iterator ite = lhs.cend();
+                const_iterator it1 =  rhs.cbegin();
+                const_iterator ite1 = rhs.cend();
+                
+                if(lhs == rhs)
+                    return true;
+                return ft::lexicographical_compare<const_iterator , const_iterator>(it , ite, it1, ite1);
+            }
+
+            friend bool operator>(const map & lhs, const map & rhs)
+            {
+                const_iterator it = lhs.cbegin();
+                const_iterator ite = lhs.cend();
+                const_iterator it1 =  rhs.cbegin();
+                const_iterator ite1 = rhs.cend();
+
+                return !(ft::lexicographical_compare<const_iterator , const_iterator>(it , ite, it1, ite1));
+            }
+
+            friend bool operator>=(const map & lhs, const map & rhs)
+            {
+                const_iterator it = lhs.cbegin();
+                const_iterator ite = lhs.cend();
+                const_iterator it1 =  rhs.cbegin();
+                const_iterator ite1 = rhs.cend();
+                
+                if(lhs == rhs)
+                    return true;
+                return !(ft::lexicographical_compare<const_iterator , const_iterator>(it , ite, it1, ite1));
+            }
+
     };
 }
 

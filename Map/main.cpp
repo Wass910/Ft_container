@@ -357,30 +357,41 @@ int test_pair ()
   return 0;
 }
  
-int  main(int argc, const char** argv)
+int main ()
 {
-
-	
-	test_insert();
-    test_erase();
-	test_clear();
-	 test_find();
-   test_count();
-   test_lower_bound();
-   test_equal_range();
-   test_empty();
-   test_operator();
-   test_swap(); 
-	 test_constructeur();
-	  test_begin();
-	 test_rbegin();
-	 test_size ();
-	 test_max();
-	 test_operator_croche();
-	 test_key_comp();
-	 test_value();
-	test_pair(); 
-  (void)argc;
-  (void)argv;
-	return 0;
+    std::map<std::string, int> trezor;
+    std::map<std::string, int> compar;
+    compar["z"] = 8;
+    compar["b"] = 9;
+    compar["c"] = 10;
+    trezor["z"] = 8;
+    trezor["b"] = 9;
+    trezor["z"] = 10;
+    std::map<std::string, int>::iterator it = trezor.begin();
+    std::map<std::string, int>::iterator ite = trezor.end();
+    std::cout << std::boolalpha << (trezor > compar) << std::endl;
+    while (it != ite)
+    {    
+        std::cout <<  it->first << std::endl;
+        it++;
+    }
+    //std::cout << "find test = " << trezor.find("10")->second << std::endl;
+    std::cout << "---------------------our--------------------\n";
+    ft::map<std::string, int> trezor1;
+    ft::map<std::string, int> compar1;
+    compar1["z"] = 8;
+    compar1["b"] = 9;
+    compar1["c"] = 10;
+    trezor1["z"] = 8;
+    trezor1["b"] = 9;
+    trezor1["z"] = 10;
+    ft::map<std::string, int>::iterator it1 = trezor1.begin();
+    ft::map<std::string, int>::iterator ite1 = trezor1.end();
+    std::cout << std::boolalpha << (trezor1 > compar1) << std::endl;
+    while (it1 != ite1)
+    {   
+        std::cout <<  it1->first << std::endl;
+        it1++;
+    }
+  return 0;
 }
