@@ -874,7 +874,7 @@ int	main()
      erase();
      swap();
      clear();
-	  std::cout << "--------------TEST-MAP---------------------\n\n";
+	  std::cout << "\n--------------TEST-MAP---------------------\n\n";
 
     test_erase();
 	 test_insert();
@@ -896,7 +896,7 @@ int	main()
 	 test_value();
 	test_pair();
 
-    std::cout << "--------------TEST-STACK-------------------\n\n";
+    std::cout << "\n--------------TEST-STACK-------------------\n\n";
 
     test_stack();
 	  test_pop();

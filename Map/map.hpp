@@ -265,7 +265,7 @@ namespace ft
                     
             };
 
-            class const_iterator : public iterator{
+            class const_iterator : public std::iterator<std::input_iterator_tag, int>{
                 public:
                     const_iterator(void) 
                     {
