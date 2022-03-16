@@ -16,8 +16,9 @@ namespace ft
             
             explicit stack (const container_type& ctnr = container_type()) 
             {
-                this->_vect = new Container;
-                *this->_vect = ctnr;
+                //this->_vect = Container();
+                if (ctnr.size() != 0)
+                    this->_vect = ctnr;
                 //this = ctnr;
                 //this->_vect._mytab = this->_myTab;
                 return ;
@@ -30,37 +31,42 @@ namespace ft
 
             void push (const value_type& val)
             {
-                this->_vect->push_back(val);
+                this->_vect.push_back(val);
                 return ;
             }
 
             bool empty( void )
             {
-                return this->_vect->empty();
+                return this->_vect.empty();
             }
             
             size_type   size( void )
             {
-                return this->_vect->size();
-            }
-            value_type & top( void )
-            {
-                return this->_vect[(this->_vect->size()) - 1];
+                return this->_vect.size();
             }
 
-            /* const value_type& top() const
+            value_type & top( void )
             {
-                return this->_vect[(this->_vect->size()) - 1];
+                int len = this->_vect.size() - 1;
+				//std::cout << this->_vect[len] << std::endl;
+                value_type &valued = this->_vect[len];
+				return valued;
             }
- */
+
+            const value_type& top() const
+            {
+				int len = this->_vect.size() - 1;
+                return this->_vect[len];
+            }
+ 
             void pop( void )
             {
-                this->_vect->pop_back();
+                this->_vect.pop_back();
                 return ;
             }
 
             private :
-                ft::vector<T> *_vect;
+                ft::vector<T> _vect;
 
     };
 }

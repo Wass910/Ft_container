@@ -792,9 +792,14 @@ namespace ft
             vector<T> & operator=(vector<T> const & src)
             {
 				if(*this == src)
-					return *this;
-				if(src._myTab == NULL)
+				{	
+                    if (src._myTab == NULL)
+                        this->_myTab = NULL;
+                    return *this; 
+                }
+                if(src._myTab == NULL)
 				{
+                    this->_myTab = NULL;
 					this->_size = 0;
 					this->_size_hide = 0;
 					return *this;
