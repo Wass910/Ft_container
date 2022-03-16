@@ -11,6 +11,12 @@ for (ft::map<char,int>::iterator it = myMap.begin(); it !=myMap.end(); it++)
     std::cout << it->first << " => " << it->second << '\n';
 }
 
+void	print_map(std::map<char,int> &myMap)
+{
+for (std::map<char,int>::iterator it = myMap.begin(); it !=myMap.end(); it++)
+    std::cout << it->first << " => " << it->second << '\n';
+}
+
 int test_insert ()
 {
   ft::map<char,int> mymap;
@@ -104,62 +110,49 @@ int test_erase ()
 }
 
 
-/*
+
 int test_clear()
 {
-  ft::map<char,int> mymap;
-
+  std::map<char,int> mymap;
   mymap['x']=100;
   mymap['y']=200;
   mymap['z']=300;
-
   std::cout << "mymap contains:\n";
-  for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+  for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
-
   mymap.clear();
   mymap['a']=1101;
   mymap['b']=2202;
-
   std::cout << "mymap contains:\n";
-  for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+  for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
   return 0;
 }
-
 int test_find ()
 {
-  ft::map<char,int> mymap;
-  ft::map<char,int>::iterator it;
-
+  std::map<char,int> mymap;
+  std::map<char,int>::iterator it;
   mymap['a']=50;
   mymap['b']=100;
   mymap['c']=150;
   mymap['d']=200;
-
   it = mymap.find('b');
   if (it != mymap.end())
     mymap.erase (it);
-
   // print content:
   std::cout << "elements in mymap:" << '\n';
   std::cout << "a => " << mymap.find('a')->second << '\n';
   std::cout << "c => " << mymap.find('c')->second << '\n';
   std::cout << "d => " << mymap.find('d')->second << '\n';
-
   return 0;
 }
-
-
 int test_count ()
 {
-  ft::map<char,int> mymap;
+  std::map<char,int> mymap;
   char c;
-
   mymap ['a']=101;
   mymap ['c']=202;
   mymap ['f']=303;
-
   for (c='a'; c<'h'; c++)
   {
     std::cout << c;
@@ -168,15 +161,12 @@ int test_count ()
     else 
       std::cout << " is not an element of mymap.\n";
   }
-
   return 0;
 }
-
 int test_lower_bound ()
 {
-  ft::map<char,int> mymap;
-  ft::map<char,int>::iterator itlow,itup;
-
+  std::map<char,int> mymap;
+  std::map<char,int>::iterator itlow,itup;
  mymap['a']=20;
   mymap['b']=40;
   mymap['c']=60;
@@ -193,238 +183,178 @@ int test_lower_bound ()
   std::cout << "itup : first = " << itup->first << " second = " << itup->second << std::endl;
   mymap.erase(itlow,itup);        // erases [itlow,itup)
   // print content:
-  for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+  for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
   return 0;
 }
-
 int test_equal_range ()
 {
-  ft::map<char,int> mymap;
-
+  std::map<char,int> mymap;
   mymap['c']=60;
   mymap['d']=80;
   mymap['a']=20;
   mymap['e']=100;
   mymap['b']=40;
-
-  ft::pair<map<char,int>::iterator, ft::map<char,int>::iterator> ret;
+  std::pair<std::map<char,int>::iterator, std::map<char,int>::iterator> ret;
   ret = mymap.equal_range('a');
-
   std::cout << "lower bound points to: ";
   std::cout << ret.first->first << " => " << ret.first->second << '\n';
-
   std::cout << "upper bound points to: ";
   std::cout << ret.second->first << " => " << ret.second->second << '\n';
-
   return 0;
 }
 
 int test_empty ()
 {
   ft::map<char,int> mymap;
-
   mymap['a']=20;
   mymap['b']=40;
   mymap['c']=60;
   mymap['d']=80;
   mymap['e']=100;
-
   while (!mymap.empty())
   {
     std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
     mymap.erase(mymap.begin());
   }
-
   return 0;
 }
-
 int test_operator ()
 {
   ft::map<char,int> first;
   ft::map<char,int> second;
-
   first['x']=8;
   first['y']=16;
   first['z']=32;
-
   std::cout << "first:" << std::endl;
   print_map(first);
   second=first;                // second now contains 3 ints
-  first=map<char,int>();  // and first is now empty
+  first = ft::map<char,int>(); // and first is now empty
   std::cout << "second:" << std::endl;
-  // print_map(first);
-
+   print_map(first);
   std::cout << "Size of first: " << first.size() << '\n';
   std::cout << "Size of second: " << second.size() << '\n';
   return 0;
 }
-
 bool fncomp (char lhs, char rhs) {return lhs<rhs;}
-
 struct classcomp {
   bool operator() (const char& lhs, const char& rhs) const
   {return lhs<rhs;}
 };
-
-int test_constructeur()
+/*int test_constructeur()
 {
   ft::map<char,int> first;
-
   first['a']=10;
   first['b']=30;
   first['c']=50;
   first['d']=70;
-
   ft::map<char,int> second (first.begin(),first.end());
-
 std::cout << "first:" << std::endl;
 	print_map(first);
   ft::map<char,int> third (second);
-
   ft::map<char,int,classcomp> fourth;                 // class as Compare
-
   bool(*fn_pt)(char,char) = fncomp;
   ft::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
-
   return 0;
-}
-
+}*/
 int test_begin ()
 {
   ft::map<char,int> mymap;
-
   mymap['b'] = 100;
   mymap['a'] = 200;
   mymap['c'] = 300;
-
   // show content:
   for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
-
   return 0;
 }
-
-
 int test_rbegin()
 {
   ft::map<char,int> mymap;
-
   mymap['x'] = 100;
   mymap['y'] = 200;
   mymap['z'] = 300;
-
   // show content:
 //   ft::map<char,int>::reverse_iterator rit = mymap.rbegin();
   ft::map<char,int>::reverse_iterator rit ;
   for (rit=mymap.rbegin(); rit!=mymap.rend(); ++rit)
     std::cout << rit->first << " => " << rit->second << '\n';
-
   return 0;
 }
-
 int test_size ()
 {
   ft::map<char,int> mymap;
   mymap['a']=101;
   mymap['b']=202;
   mymap['c']=302;
-
   std::cout << "mymap.size() is " << mymap.size() << '\n';
-
   return 0;
 }
-
 int test_max ()
 {
   int i;
   ft::map<int,int> mymap;
-
   if (mymap.max_size()>1000)
   {
     for (i=0; i<1000; i++) mymap[i]=0;
     std::cout << "The map contains 1000 elements.\n";
   }
   else std::cout << "The map could not hold 1000 elements.\n";
-
   return 0;
 }
-
-
 int test_operator_croche()
 {
   ft::map<char,std::string> mymap;
-
   mymap['a']="an element";
   mymap['b']="another element";
-  mymap['c']=mymap['b'];
-
+  mymap['c'] = mymap['b'];
   std::cout << "mymap['a'] is " << mymap['a'] << '\n';
   std::cout << "mymap['b'] is " << mymap['b'] << '\n';
   std::cout << "mymap['c'] is " << mymap['c'] << '\n';
   std::cout << "mymap['d'] is " << mymap['d'] << '\n';
-
   std::cout << "mymap now contains " << mymap.size() << " elements.\n";
-
   return 0;
 }
-
 int test_key_comp ()
 {
-  ft::map<char,int> mymap;
-
-  ft::map<char,int>::key_compare mycomp = mymap.key_comp();
-
+  std::map<char,int> mymap;
+  std::map<char,int>::key_compare mycomp = mymap.key_comp();
   mymap['a']=100;
   mymap['b']=200;
   mymap['c']=300;
-
   std::cout << "mymap contains:\n";
-
   char highest = mymap.rbegin()->first;     // key value of last element
-
-  ft::map<char,int>::iterator it = mymap.begin();
+  std::map<char,int>::iterator it = mymap.begin();
   do {
     std::cout << it->first << " => " << it->second << '\n';
   } while ( mycomp((*it++).first, highest) );
-
   std::cout << '\n';
-
   return 0;
 }
-
 int test_value ()
 {
-  ft::map<char,int> mymap;
-
+  std::map<char,int> mymap;
   mymap['x']=1001;
   mymap['y']=2002;
   mymap['z']=3003;
-
   std::cout << "mymap contains:\n";
-
-	ft::pair<char,int> highest = *mymap.rbegin();          // last element
-
-  ft::map<char,int>::iterator it = mymap.begin();
+std::pair<char,int> highest = *mymap.rbegin();          // last element
+  std::map<char,int>::iterator it = mymap.begin();
   do {
     std::cout << it->first << " => " << it->second << '\n';
   } while ( mymap.value_comp()(*it++, highest) );
-
   return 0;
 }
-
-int test_ft::pair () 
+int test_pair () 
 {
-  ft::pair <int,int> foo;
-  ft::pair <int,int> bar;
-  foo = make_ft::pair(10,20);
-  bar = make_ft::pair (10.5,'A'); // ok: implicit conversion from ft::pair<double,char>
-
+  std::pair <int,int> foo;
+  std::pair <int,int> bar;
+  foo = std::make_pair(10,20);
+  bar = std::make_pair (10,45); // ok: implicit conversion from ft::pair<double,char>
   std::cout << "foo: " << foo.first << ", " << foo.second << '\n';
   std::cout << "bar: " << bar.first << ", " << bar.second << '\n';
-
   return 0;
-} */
+}
 
 int  main(int argc, const char** argv)
 {
@@ -432,24 +362,23 @@ int  main(int argc, const char** argv)
 	
 	test_insert();
     test_erase();
-	// test_clear();
-	// test_find();
-  // test_count();
-  // test_lower_bound();
-	// std::cout << "salut" << std::endl;
-  // test_equal_range();
-//   test_empty();
-//   test_operator();
-//   test_swap();
-	// test_constructeur();
-	// test_begin();
-	// test_rbegin();
-	// test_size ();
-	// test_max();
-	// test_operator_croche();
-	// test_key_comp();
-	// test_value();
-	//test_pair();
+	test_clear();
+	 test_find();
+   test_count();
+   test_lower_bound();
+   test_equal_range();
+   test_empty();
+   test_operator();
+   test_swap();
+	 //test_constructeur();
+	 test_begin();
+	 test_rbegin();
+	 test_size ();
+	 test_max();
+	 test_operator_croche();
+	 test_key_comp();
+	 test_value();
+	test_pair();
   (void)argc;
   (void)argv;
 	return 0;

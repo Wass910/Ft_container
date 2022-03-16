@@ -100,6 +100,18 @@ namespace ft
             ~map( void ) 
             {
                 _map_node *temp = this->_myMap;
+				//if(!(temp->next->next == NULL))
+				//{
+				//	temp = temp->next;
+				//	std::cout << temp->_myPair->first << std::endl;
+				//}
+				//if(temp->next->next == NULL)
+				//{
+				//	_map_node *temp2 = temp->next;
+				//	delete temp;
+				//	delete temp2;
+				//	return ;
+				//}
                 while (temp->next)
                 {
                     this->_myMap = this->_myMap->next;
@@ -318,9 +330,9 @@ namespace ft
                         return ;
                     }
 
-                    T & operator*( void ) 
+                    ft::pair<Key, T> & operator*( void ) 
                     {
-                        return this->p->_myPair->second;
+                        return *this->p->_myPair;
                     }
 
                     ft::pair<Key, T> * operator->( void )
@@ -400,9 +412,9 @@ namespace ft
                         return ;
                     }
 
-                    T & operator*( void ) 
+                    ft::pair<Key, T> operator*( void ) 
                     {
-                        return this->p->_myPair->second;
+                        return *this->p->_myPair;
                     }
 
                     ft::pair<Key, T> * operator->( void )
@@ -549,8 +561,9 @@ namespace ft
 
             map & operator=( const map & src ) 
             {
-                this->_myMap = src._myMap;
-                this->_size = src._size;
+				this->clear();
+				this->insert(src.begin(), src.end());
+				this->_size = src._size;
                 return *this;
             } 
 
@@ -568,9 +581,10 @@ namespace ft
                     }
                 }
 				T a = T();
-                _map_node *test = this->map_new(key, a);
+				ft::pair<Key, T> oui;
+                _map_node *test = this->map_new(key, oui.second);
                 this->map_back(&this->_myMap, test);
-                this->_end->begin = this->_myMap;    
+                this->_end->begin = this->_myMap;
                 this->_size++;
 				return test->_myPair->second;
             }
@@ -608,21 +622,21 @@ namespace ft
 			}
 
             void swap (map& x){
-				map temp;
+				//map temp;
 
-				temp = *this;
-				*this = x;
-				x = temp;
+				//temp = *this;
+				//*this = x;
+				//x = temp;
 				//alternative(idk which one is better, need to find out):
-				//_map_node *temp;
-				//size_type temps;
-				//
-				//temp = this->_myMap;
-				//temps = this->_size;
-				//this->_myMap = x._myMap;
-				//this->_size = x._size;
-				//x._myMap = temp;
-				//x._size = temps;
+				_map_node *temp;
+				size_type temps;
+				
+				temp = this->_myMap;
+				temps = this->_size;
+				this->_myMap = x._myMap;
+				this->_size = x._size;
+				x._myMap = temp;
+				x._size = temps;
 			}
 
             void clear( void )
@@ -811,16 +825,40 @@ namespace ft
 					temp = temp->next;
 				_map_node *to_del = temp->next;
 				_map_node *end = this->_myMap->next;
-				while (end->_myPair->first != last->first)
-					end = end->next;
+				std::cout << "end: " << end->_myPair->first << std::endl;
+				if(last == this->end()){
+					while (end->next != NULL){
+						//std::cout << "end_loop2: " << end->_myPair->first << std::endl;
+						end = end->next;
+				}
+				}
+				else{
+					while (end->_myPair->first != last->first){
+						//std::cout << "end_loop: " << end->_myPair->first << std::endl;
+						end = end->next;
+				}}
+				std::cout << "cbon" << std::endl;
 				temp->next = end;
 				_map_node *erased;
+				if(last == this->end()){
+				while(to_del->next->next != NULL)
+				{
+					erased = to_del;
+					to_del = to_del->next;
+					delete erased->_myPair;
+					delete erased;
+					this->_size--;
+				}
+				}
+				else{
 				while(to_del->_myPair->first != last->first)
 				{
 					erased = to_del;
 					to_del = to_del->next;
 					delete erased->_myPair;
 					delete erased;
+					this->_size--;
+				}
 				}
 			}
 
@@ -905,6 +943,30 @@ namespace ft
                 }
                 return it;
             }
+			pair<iterator,iterator>             equal_range (const Key& k){
+				iterator temp = this->begin();
+				while(temp->first && temp->first != k)
+					temp++;
+				iterator temp2 = temp;
+				temp2++;
+				ft::pair<iterator, iterator> returned = ft::make_pair(temp, temp2);
+				if(temp->first)
+					return returned;
+				returned = ft::make_pair(iterator(), iterator());
+				return returned;
+			}
+			pair<const_iterator,const_iterator> equal_range (const Key& k) const{
+				const_iterator temp = this->cbegin();
+				while(temp->first && temp->first != k)
+					temp++;
+				const_iterator temp2 = temp;
+				temp2++;
+				ft::pair<const_iterator, const_iterator> returned = ft::make_pair(temp, temp2);
+				if(temp->first)
+					return returned;
+				returned = ft::make_pair(const_iterator(), const_iterator());
+				return returned;
+			}
     };
 }
 
