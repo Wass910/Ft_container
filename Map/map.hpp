@@ -95,6 +95,16 @@ namespace ft
                     }
                 }
             }
+
+            void display_map(){
+				_map_node *temp = this->_myMap->next;
+				while(temp->next != this->_end)
+				{
+					std::cout << "display_map: " << temp->_myPair->first << " ----> " << temp->_myPair->second << std::endl;
+					temp = temp->next;
+				}
+				return;
+			}
             
         public:
 
@@ -143,18 +153,6 @@ namespace ft
             ~map( void ) 
             {
                 _map_node *temp = this->_myMap;
-				//if(!(temp->next->next == NULL))
-				//{
-				//	temp = temp->next;
-				//	std::cout << temp->_myPair->first << std::endl;
-				//}
-				//if(temp->next->next == NULL)
-				//{
-				//	_map_node *temp2 = temp->next;
-				//	delete temp;
-				//	delete temp2;
-				//	return ;
-				//}
                 while (temp->next)
                 {
                     this->_myMap = this->_myMap->next;
@@ -646,16 +644,6 @@ namespace ft
                 return this->_size;
             }
 
-			void display_map(){
-				_map_node *temp = this->_myMap->next;
-				while(temp->next != this->_end)
-				{
-					std::cout << "display_map: " << temp->_myPair->first << " ----> " << temp->_myPair->second << std::endl;
-					temp = temp->next;
-				}
-				return;
-			}
-
 			size_type max_size() const{
 				std::allocator<struct _map_node> _alloc;
 				return _alloc.max_size() ;
@@ -666,13 +654,8 @@ namespace ft
 				return _new_alloc;
 			}
 
-            void swap (map& x){
-				//map temp;
-
-				//temp = *this;
-				//*this = x;
-				//x = temp;
-				//alternative(idk which one is better, need to find out):
+            void swap (map& x)
+            {
 				_map_node *temp;
 				size_type temps;
 				
@@ -865,7 +848,6 @@ namespace ft
 
 			void erase(iterator first, iterator last)
             {
-                //actualiser this->_size;
 				_map_node *temp = this->_myMap->next;
 				while(temp->next->_myPair->first != first->first)
 					temp = temp->next;
@@ -873,13 +855,11 @@ namespace ft
 				_map_node *end = this->_myMap->next;
 				if(last == this->end()){
 					while (end->next != NULL){
-						//std::cout << "end_loop2: " << end->_myPair->first << std::endl;
 						end = end->next;
 				}
 				}
 				else{
 					while (end->_myPair->first != last->first){
-						//std::cout << "end_loop: " << end->_myPair->first << std::endl;
 						end = end->next;
 				}}
 				temp->next = end;

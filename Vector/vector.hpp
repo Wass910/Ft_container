@@ -1123,8 +1123,6 @@ namespace ft
                 return it2;
             }
 
-            
-
             void assign( int n, const T & val)
             {
                 if (this->_myTab != NULL)
@@ -1363,7 +1361,7 @@ namespace ft
                 return false;
             } 
 
-        private:
+        protected:
             std::allocator<T>    _tab;
             std::allocator<T>    _tab_tmp;
             T                    *_myTab;
