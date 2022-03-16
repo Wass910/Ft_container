@@ -521,7 +521,6 @@ namespace ft
 
             iterator     end( void ) 
             {
-                _map_node *temp = this->_myMap;
                 iterator   it(this->_end);
                 return (it);
             }
@@ -534,7 +533,6 @@ namespace ft
 
             const_iterator     end( void ) const
             {
-                _map_node *temp = this->_myMap;
                 const_iterator   it(this->_end);
                 return (it);
             }
