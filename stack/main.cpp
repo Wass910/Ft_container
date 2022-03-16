@@ -31,7 +31,7 @@ int test_pop()
   std::cout << "Popping out elements...";
   while (!mystack.empty())
   {
-     std::cout << ' ' << mystack.top();
+     //std::cout << ' ' << mystack.top();
      mystack.pop();
   }
   std::cout << '\n';
@@ -46,9 +46,9 @@ int test_top ()
   mystack.push(10);
   mystack.push(20);
 
-  mystack.top() -= 5;
+ // mystack.top() -= 5;
 
-  std::cout << "mystack.top() is now " << mystack.top() << '\n';
+ // std::cout << "mystack.top() is now " << mystack.top() << '\n';
 
   return 0;
 }

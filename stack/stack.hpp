@@ -7,15 +7,18 @@ namespace ft
 {
 
     template <class T, class Container = ft::vector<T> > 
-    class stack : public ft::vector<T>{
+    class stack {
         public:
 
             typedef T                          value_type; 
             typedef size_t                     size_type;
             typedef Container                  container_type;
             
-            explicit stack (const container_type& ctnr = container_type()) : _vect(ctnr)
+            explicit stack (const container_type& ctnr = container_type()) 
             {
+                this->_vect = new Container;
+                *this->_vect = ctnr;
+                //this = ctnr;
                 //this->_vect._mytab = this->_myTab;
                 return ;
             }
@@ -27,28 +30,37 @@ namespace ft
 
             void push (const value_type& val)
             {
-                this->push_back(val);
+                this->_vect->push_back(val);
                 return ;
             }
 
+            bool empty( void )
+            {
+                return this->_vect->empty();
+            }
+            
+            size_type   size( void )
+            {
+                return this->_vect->size();
+            }
             value_type & top( void )
             {
-                return this->_myTab[this->_size_hide - 1];
+                return this->_vect[(this->_vect->size()) - 1];
             }
 
-            const value_type& top() const
+            /* const value_type& top() const
             {
-                return this->_myTab[this->_size_hide - 1];
+                return this->_vect[(this->_vect->size()) - 1];
             }
-
+ */
             void pop( void )
             {
-                this->pop_back();
+                this->_vect->pop_back();
                 return ;
             }
 
             private :
-                ft::vector<T> _vect;
+                ft::vector<T> *_vect;
 
     };
 }

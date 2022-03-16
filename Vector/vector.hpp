@@ -654,7 +654,7 @@ namespace ft
                 return (it);
             }
 
-            const_iterator   begin( void ) 
+            iterator   begin( void ) 
             {
                 if (this->_size_hide == 0)
                     return NULL;
@@ -662,7 +662,7 @@ namespace ft
                 return (it);
             }
 
-            const_iterator   end( void )
+            iterator   end( void )
             {
                 if (this->_size_hide == 0)
                 {    
@@ -906,7 +906,8 @@ namespace ft
             void clear( void )
             {
                 size_t len = this->_size;
-
+                if (len > 1000)
+                    len = 0;
                 for (size_t i = 0; i < len; i++) {
                     this->_tab.destroy(this->_myTab + i);
                 }
@@ -1122,6 +1123,8 @@ namespace ft
                 }
                 return it2;
             }
+
+            
 
             void assign( int n, const T & val)
             {
@@ -1361,7 +1364,7 @@ namespace ft
                 return false;
             } 
 
-        protected:
+        private:
             std::allocator<T>    _tab;
             std::allocator<T>    _tab_tmp;
             T                    *_myTab;
