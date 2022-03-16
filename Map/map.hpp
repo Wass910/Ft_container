@@ -21,11 +21,12 @@ namespace ft
                 _map_node           *next;
                 _map_node           *begin;
             }               _map_node;
-            _map_node   *_myMap;
-            size_t   _size;
-            _map_node   *_end;
-            Compare     _comp;
-            _map_node   *_begin;
+            _map_node       *_myMap;
+            size_t          _size;
+            _map_node       *_end;
+            Compare         _comp;
+            std::allocator<Key>  _alloc;
+            _map_node       *_begin;
             
             _map_node  *map_new_end( void )
             {
@@ -52,6 +53,19 @@ namespace ft
                 lst->begin = this->_end->begin;
                 lst->next = this->_end;
                 return lst;
+            }
+
+            size_t  map_len( _map_node *len ) const
+            {
+                size_t count = 0;
+                _map_node *temp = len;
+
+                while (temp->next != this->_end)
+                {
+                    temp = temp->next;
+                    count++;
+                }
+                return count - 2;   
             }
 
             void map_back(_map_node **alst, _map_node *other)
@@ -88,12 +102,49 @@ namespace ft
             typedef pair< Key, T>					                    value_type;
             typedef Compare					                            key_compare;
 
-            map( void ) 
+            /* map( void ) 
             {
                 this->_end = map_new_end();
                 this->_myMap = map_new_begin();
                 this->_end->begin = this->_myMap;
                 this->_size = 0;
+                return ;
+            } */
+
+            explicit map (const key_compare& comp = key_compare(),
+              const allocator_type& alloc = allocator_type())
+            {
+                this->_end = map_new_end();
+                this->_myMap = map_new_begin();
+                this->_end->begin = this->_myMap;
+                this->_size = 0;
+                this->_alloc = alloc;
+                this->_comp = comp;
+                return ;
+            }
+
+            template <class InputIterator>
+            map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+            {
+                this->_end = map_new_end();
+                this->_myMap = map_new_begin();
+                this->_end->begin = this->_myMap;
+                this->_size = 0;
+                this->_alloc = alloc;
+                this->_comp = comp;
+                this->insert(first, last);
+                return ;
+            }
+
+            map( const map & x ) 
+            {
+                this->_end = map_new_end();
+                this->_myMap = map_new_begin();
+                this->_end->begin = this->_myMap;
+                this->insert(x.begin(), x.end());
+				this->_size = x._size;
+                this->_alloc = x._alloc;
+                this->_comp = x._comp;
                 return ;
             }
 
@@ -561,7 +612,7 @@ namespace ft
 
             map & operator=( const map & src ) 
             {
-				this->clear();
+                this->clear();
 				this->insert(src.begin(), src.end());
 				this->_size = src._size;
                 return *this;
@@ -580,13 +631,13 @@ namespace ft
                         temp = temp->next;       
                     }
                 }
-				T a = T();
-				ft::pair<Key, T> oui;
-                _map_node *test = this->map_new(key, oui.second);
+                if (this->count(key) == 0)
+                    this->_size++;
+                _map_node *test = this->map_new(key, T());
                 this->map_back(&this->_myMap, test);
                 this->_end->begin = this->_myMap;
-                this->_size++;
-				return test->_myPair->second;
+                iterator it = this->find(key);
+				return it->second;
             }
             
             bool empty( void ) const
@@ -641,6 +692,8 @@ namespace ft
 
             void clear( void )
             {
+                if (this->_size == 0)
+                    return ;
                 _map_node *temp = this->_myMap;
                 while (temp->next)
                 {
@@ -706,7 +759,6 @@ namespace ft
             ft::pair<iterator, bool> insert(ft::pair<Key, T> add)
             {
                 size_type there_is_or_not = this->count(add.first);
-                //this->display_map();
                 if ( there_is_or_not == 0)
                 {
                     this->map_back(&this->_myMap, map_new(add.first, add.second));
@@ -714,7 +766,7 @@ namespace ft
                 }
                 iterator it = this->find(add.first);
                 ft::pair<iterator, bool> ret ;
-                if (there_is_or_not == 1)
+                if (there_is_or_not == 0)
                     ret =  ft::make_pair(it, true);
                 else
                     ret =  ft::make_pair(it, false);
@@ -825,7 +877,6 @@ namespace ft
 					temp = temp->next;
 				_map_node *to_del = temp->next;
 				_map_node *end = this->_myMap->next;
-				std::cout << "end: " << end->_myPair->first << std::endl;
 				if(last == this->end()){
 					while (end->next != NULL){
 						//std::cout << "end_loop2: " << end->_myPair->first << std::endl;
@@ -837,7 +888,6 @@ namespace ft
 						//std::cout << "end_loop: " << end->_myPair->first << std::endl;
 						end = end->next;
 				}}
-				std::cout << "cbon" << std::endl;
 				temp->next = end;
 				_map_node *erased;
 				if(last == this->end()){
