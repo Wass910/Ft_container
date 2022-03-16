@@ -212,13 +212,13 @@ namespace ft
                     
             };
 
-            class const_iterator : public std::iterator<std::input_iterator_tag, int>{
+            class const_iterator : public iterator{
                 public:
                     const_iterator(void) 
                     {
                         return ;
                     }
-                    const_iterator(_map_node * x) :p(x)
+                    const_iterator(_map_node * x) :p(x) 
                     {
                         return ;
                     }
@@ -234,15 +234,16 @@ namespace ft
                         return ;
                     }
 
-                    T & operator*( void ) const 
+                    ft::pair<Key, T> & operator*( void ) 
                     {
-                        return this->p->_myPair->second;
+                        return *this->p->_myPair;
                     }
 
                     ft::pair<Key, T> * operator->( void )
                     {
                         return this->p->_myPair;
                     }
+                    
                     bool operator==( const_iterator const & it ) const
                     {
                         if ( it.p->_myPair == this->p->_myPair)
@@ -274,7 +275,6 @@ namespace ft
                     const_iterator operator--(int) 
                     {
                         const_iterator  temp = *this;
-                        
                         --*this;
                         return temp;
                     }
@@ -290,7 +290,6 @@ namespace ft
                         this->p->_myPair = temp->_myPair;
                         return *this;
                     }
-
 
                 private :
                     _map_node * p;
@@ -589,14 +588,12 @@ namespace ft
             }
 
 			void display_map(){
-				_map_node *temp = this->_myMap;
-				while(temp)
+				_map_node *temp = this->_myMap->next;
+				while(temp->next != this->_end)
 				{
-					std::cout << "display_map: " << temp << std::endl;
+					std::cout << "display_map: " << temp->_myPair->first << " ----> " << temp->_myPair->second << std::endl;
 					temp = temp->next;
 				}
-                std::cout << "display_map end: " <<this->_end << std::endl;
-                std::cout << "display_map begin in end: " <<this->_end->begin << std::endl;
 				return;
 			}
 
@@ -651,9 +648,11 @@ namespace ft
             {
                 _map_node *temp = this->_myMap->next;
 
-                while (temp->next != this->_end)
+                if (this->_size == 0)
+                    return 0;
+                while (temp->next )
                 {    
-                    if (temp->_myPair->first == k)
+                    if (temp->_myPair != NULL && temp->_myPair->first == k)
                         return 1;
                     temp = temp->next;
                 }
@@ -693,6 +692,7 @@ namespace ft
             ft::pair<iterator, bool> insert(ft::pair<Key, T> add)
             {
                 size_type there_is_or_not = this->count(add.first);
+                //this->display_map();
                 if ( there_is_or_not == 0)
                 {
                     this->map_back(&this->_myMap, map_new(add.first, add.second));
@@ -700,7 +700,7 @@ namespace ft
                 }
                 iterator it = this->find(add.first);
                 ft::pair<iterator, bool> ret ;
-                if (there_is_or_not == 0)
+                if (there_is_or_not == 1)
                     ret =  ft::make_pair(it, true);
                 else
                     ret =  ft::make_pair(it, false);
@@ -713,6 +713,7 @@ namespace ft
                 _map_node *new_node_seg = NULL;
                 iterator its = this->begin();
 
+                size_type there_is_or_not = this->count(add.first);
                 if ( it != this->end())
                 {
                     it++;
@@ -733,7 +734,6 @@ namespace ft
                     new_node_seg = map_new(last->first, last->second);
                 } 
                 new_node = map_new(add.first, add.second);
-                size_type there_is_or_not = this->count(add.first);
                 if ( there_is_or_not == 0)
                 {
                     this->map_back(&this->_myMap, new_node);
@@ -805,6 +805,7 @@ namespace ft
 
 			void erase(iterator first, iterator last)
             {
+                //actualiser this->_size;
 				_map_node *temp = this->_myMap->next;
 				while(temp->next->_myPair->first != first->first)
 					temp = temp->next;
@@ -849,7 +850,7 @@ namespace ft
                     it++;
                 }
                 return it;
-            }
+            } 
 
             const_iterator lower_bound (const Key & k) const
             {
