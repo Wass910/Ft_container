@@ -70,7 +70,6 @@ namespace ft
             vector( vector const & src ) 
             {
                 *this = src;
-                std::cout << "Vector constructor assignation is call." << std::endl;
                 return ;
             }
 
@@ -799,6 +798,7 @@ namespace ft
                 }
                 if(src._myTab == NULL)
 				{
+                    delete this->_myTab;
                     this->_myTab = NULL;
 					this->_size = 0;
 					this->_size_hide = 0;

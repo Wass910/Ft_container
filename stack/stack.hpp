@@ -16,11 +16,8 @@ namespace ft
             
             explicit stack (const container_type& ctnr = container_type()) 
             {
-                //this->_vect = Container();
                 if (ctnr.size() != 0)
                     this->_vect = ctnr;
-                //this = ctnr;
-                //this->_vect._mytab = this->_myTab;
                 return ;
             }
 
@@ -40,7 +37,7 @@ namespace ft
                 return this->_vect.empty();
             }
             
-            size_type   size( void )
+            size_type   size( void ) const
             {
                 return this->_vect.size();
             }
@@ -48,7 +45,6 @@ namespace ft
             value_type & top( void )
             {
                 int len = this->_vect.size() - 1;
-				//std::cout << this->_vect[len] << std::endl;
                 value_type &valued = this->_vect[len];
 				return valued;
             }
@@ -64,6 +60,15 @@ namespace ft
                 this->_vect.pop_back();
                 return ;
             }
+
+            friend bool operator== (const stack& lhs, const stack& rhs) { return lhs._vect == rhs._vect; }
+            friend bool operator!= (const stack& lhs, const stack& rhs) { return lhs._vect != rhs._vect; }
+            friend bool operator<  (const stack& lhs, const stack& rhs) { return lhs._vect < rhs._vect; }
+            friend bool operator<= (const stack& lhs, const stack& rhs) { return lhs._vect <= rhs._vect; }
+            friend bool operator>  (const stack& lhs, const stack& rhs) { return lhs._vect > rhs._vect; }
+            friend bool operator>= (const stack& lhs, const stack& rhs) { return lhs._vect >= rhs._vect; }
+
+            
 
             private :
                 ft::vector<T> _vect;

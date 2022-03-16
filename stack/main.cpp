@@ -56,29 +56,30 @@ int test_top ()
 
 int	main()
 {
- test_stack();
+  test_stack();
 	test_pop();
 	test_top();  
-    std::cout << "ours test \n";
     std::stack<char> trezor;
     std::stack<char> trezor2(trezor);
     
 
     trezor.push('e');
+    trezor.push('a');
     trezor2.push('e');
-    trezor.push('f');
-    trezor.push('l');
-    trezor.push('m');
-    trezor.push('c');
-    trezor.push('l');
-    std::cout << trezor.top() + 4 << std::endl;
-    std::cout << trezor.size() << std::endl;
-    std::cout << trezor2.size() << std::endl;
-    trezor.pop();
-    //trezor2.pop();
-    std::cout << trezor.top() + 4 << std::endl;
-    std::cout << trezor.size() << std::endl;
-    std::cout << trezor2.size() << std::endl;
+    trezor2.push('z');
+    std::cout << std::boolalpha << (trezor > trezor2) << std::endl;
+
+    std::cout << "ours test \n";
+
+    ft::stack<char> trezor3;
+    ft::stack<char> trezor4(trezor3);
+    
+
+    trezor3.push('e');
+    trezor3.push('a');
+    trezor4.push('e');
+    trezor4.push('z');
+    std::cout << std::boolalpha << (trezor3 > trezor4) << std::endl;
 	// std::cout << "hellow" << std::endl; 
 	return (0);
 }
