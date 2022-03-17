@@ -790,7 +790,7 @@ namespace ft
             
             vector<T> & operator=(vector<T> const & src)
             {
-				if(*this == src)
+				if(*this == src) 
 				{	
                     if (src._myTab == NULL)
                         this->_myTab = NULL;
@@ -798,6 +798,7 @@ namespace ft
                 }
                 if(src._myTab == NULL)
 				{
+                    this->_tab.deallocate(this->_myTab, 1);
                     this->_myTab = NULL;
 					this->_size = 0;
 					this->_size_hide = 0;

@@ -901,12 +901,12 @@ int	main()
     test_stack();
 	  test_pop();
 	  test_top();  
-    ft::stack<char> trezor;
-    ft::stack<char> trezor2(trezor);
+    std::stack<char> trezor;
+    std::stack<char> trezor2;
     
 
     trezor.push('e');
-    trezor.push('a');
+    trezor.push('a'); 
     trezor2.push('e');
     trezor2.push('z');
     std::cout << std::boolalpha << (trezor > trezor2) << std::endl;
@@ -914,7 +914,7 @@ int	main()
     std::cout << "ours test \n";
 
     ft::stack<char> trezor3;
-    ft::stack<char> trezor4(trezor3);
+    ft::stack<char> trezor4;
     
 
     trezor3.push('e');

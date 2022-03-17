@@ -762,12 +762,14 @@ namespace ft
                     {
                         it--;
                         new_node_seg = map_new(it->first, it->second);
+                        delete new_node_seg->_myPair;
                         delete new_node_seg;
                     }
                     else    
                         it--;
                     new_node_seg = map_new(it->first, it->second);
-                    delete new_node_seg;
+                    delete new_node_seg->_myPair;
+                    delete new_node_seg; 
                 }
                 if ( it != this->end() && ++it == this->begin())
                 {
@@ -781,7 +783,10 @@ namespace ft
                     this->_size++;
                 }
                 else
+                {
+                    delete new_node_seg->_myPair;
                     delete new_node;
+                }
                 iterator it_to_send = this->find(add.first);
                 return it_to_send;
             }
@@ -863,7 +868,7 @@ namespace ft
 				temp->next = end;
 				_map_node *erased;
 				if(last == this->end()){
-				while(to_del->next->next != NULL)
+				while(to_del->next != NULL)
 				{
 					erased = to_del;
 					to_del = to_del->next;

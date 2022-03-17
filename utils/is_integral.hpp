@@ -10,7 +10,7 @@ namespace ft {
 		typedef T value_type;
 
 		typedef integral_constant<T, v> type;
-
+ 
 		operator T() {
 
 			return (v);
